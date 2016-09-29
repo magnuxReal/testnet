@@ -15,9 +15,9 @@ import java.util.Properties;
 public class MysqlConnect {
     
     private static final String DATABASE_DRIVER = "com.mysql.jdbc.Driver";
-    private static final String DATABASE_URL = "jdbc:mysql://dvaromesa.lt:3306/dvmesa_mesa";
-    private static final String USERNAME = "";
-    private static final String PASSWORD = "";
+    private static final String DATABASE_URL = "jdbc:mysql://dvaromesa.lt:3306/dvmesa_mesa?useUnicode=true&characterEncoding=UTF-8";
+    private static final String USERNAME = "dvmesa_mesa";
+    private static final String PASSWORD = "VilniuotasSusiruksmeti";
     private static final String MAX_POOL = "250";
 
     // init connection object

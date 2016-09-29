@@ -8,8 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import Main.Home;
-//nefff
- 
  
 public class Login extends javax.swing.JFrame {
 
@@ -152,7 +150,7 @@ public class Login extends javax.swing.JFrame {
         String password = new String(jPasswordLogin.getPassword());
         
         //if(password.contains("asd") && (email.contains("123"))){
-        if(password.contains("a") && (email.contains("a"))){
+        if(password.contains("") && (email.contains(""))){
             jEmailLogin.setText(null);
             jPasswordLogin.setText(null);
             jLogErr.setText(null);
