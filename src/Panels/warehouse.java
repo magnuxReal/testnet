@@ -24,6 +24,7 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -38,16 +39,20 @@ public class warehouse extends javax.swing.JPanel {
         initComponents();
         
         TableColumnModel tcm = jTable1.getColumnModel();
-        tcm.getColumn(0).setPreferredWidth(300);    
-        tcm.getColumn(1).setPreferredWidth(100);
+        tcm.getColumn(0).setPreferredWidth(50);    
+        tcm.getColumn(1).setPreferredWidth(200);
+        tcm.getColumn(2).setPreferredWidth(100);
 
+     
+ 
         
         TableColumnModel tcm2 = jTable2.getColumnModel();
-        tcm2.getColumn(0).setPreferredWidth(300);    
-        tcm2.getColumn(1).setPreferredWidth(100);
-
-        jTable1.getColumnModel().getColumn(1).setCellRenderer(new DecimalFormatRenderer());         
-        jTable2.getColumnModel().getColumn(1).setCellRenderer(new DecimalFormatRenderer());  
+        tcm2.getColumn(0).setPreferredWidth(50);    
+        tcm2.getColumn(1).setPreferredWidth(200);
+        tcm2.getColumn(2).setPreferredWidth(100);
+        
+        jTable1.getColumnModel().getColumn(2).setCellRenderer(new DecimalFormatRenderer());         
+        jTable2.getColumnModel().getColumn(2).setCellRenderer(new DecimalFormatRenderer());  
         resetCombo();
         balance();
     }
@@ -103,15 +108,27 @@ public class warehouse extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Produktas", "Likutis"
+                "#ID", "Produktas", "Likutis"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -127,15 +144,22 @@ public class warehouse extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Produktas", "Likutis"
+                "#ID", "Produktas", "Likutis"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane2.setViewportView(jTable2);
@@ -244,6 +268,13 @@ public class warehouse extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jButtonBalanceActionPerformed
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int index  = jTable1.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int id = (int) model.getValueAt(index, 0);
+        System.out.println(id);
+    }//GEN-LAST:event_jTable1MouseClicked
+
     private void balance(){
         MysqlConnect mysqlConnect = new MysqlConnect();
         try {
@@ -270,10 +301,10 @@ public class warehouse extends javax.swing.JPanel {
                 String name  = res.getString("name");
                  
                 if(type == 1){
-                    Object[] row = {name, balance};
+                    Object[] row = {id, name, balance};
                     model1.addRow(row);
                 }else{
-                    Object[] row = {name, balance};
+                    Object[] row = {id, name, balance};
                     model2.addRow(row);          
                 }
               
@@ -307,9 +338,6 @@ private void resetCombo(){
     private javax.swing.JTextField jTextBalance;
     // End of variables declaration//GEN-END:variables
 
-    private void getBalance() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
    static class DecimalFormatRenderer extends DefaultTableCellRenderer {
       private static final DecimalFormat formatter = new DecimalFormat( "#.###" );

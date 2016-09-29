@@ -28,24 +28,20 @@ public class WarehouseClass {
         MysqlConnect mysqlConnect = new MysqlConnect();
         try {
             Statement st = mysqlConnect.connect().createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM  dm_balance_products WHERE id_product ='"+id+"' ");
-            
+            ResultSet res = st.executeQuery("SELECT * FROM  dm_balance_products WHERE balance_left > 0 AND id_product ='"+id+"' ");
+          
             while (res.next()) {
-        
-                 
+
                 balance_left = balance_left+res.getDouble("balance_left");
-                 
-                 
+  
             }
-            
-            
-            
+
         } catch (SQLException e) {
         } finally {
             mysqlConnect.disconnect();
              
         }
-        System.out.println(balance_left);
+         
         return balance_left;
     }
     
