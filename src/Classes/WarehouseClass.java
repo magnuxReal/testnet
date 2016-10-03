@@ -6,9 +6,15 @@
 package Classes;
 
 import Main.MysqlConnect;
+import java.util.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import javafx.util.Pair;
+import static javax.swing.UIManager.getString;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -44,5 +50,31 @@ public class WarehouseClass {
          
         return balance_left;
     }
+
+    public static Map<Pair, Integer> getProduct(int id){
+        
+    Map<Pair, Integer> data = new HashMap<Pair, Integer>();
+        
+        MysqlConnect mysqlConnect = new MysqlConnect();
+        try {
+            Statement st = mysqlConnect.connect().createStatement();
+            ResultSet res = st.executeQuery("SELECT * FROM  dm_balance_products WHERE id_product = '"+id+"'");
+            while(res.next()) {
+           
+            
+            Pair p1 = new Pair<>("balance", res.getString("balance"));
+            Pair p2 = new Pair<>("balance2", res.getString("balance"));
+            data.put(p1, id);
+            data.put(p2, id);
+
+             }
+        } catch (SQLException e) {
+        } finally {
+            mysqlConnect.disconnect();
+             
+        }
+       return data;
+    }
+
     
 }
