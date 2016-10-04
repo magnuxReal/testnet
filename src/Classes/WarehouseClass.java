@@ -16,6 +16,7 @@ import java.util.Map;
 import javafx.util.Pair;
 import static javax.swing.UIManager.getString;
 import javax.swing.table.DefaultTableModel;
+import Models.Product;
 
 /**
  *
@@ -61,6 +62,7 @@ public class WarehouseClass {
             ResultSet res = st.executeQuery("SELECT * FROM  dm_balance_products WHERE id_product = '"+id+"'");
             while(res.next()) {
             Product product = new Product();
+            product.setID(res.getInt("id"));
             product.setBalance(res.getDouble("balance"));
             product.setBalance_left(res.getDouble("balance_left"));
             product.setInvoice(res.getString("invoice"));

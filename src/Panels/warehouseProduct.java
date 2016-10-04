@@ -5,14 +5,13 @@
  */
 package Panels;
 import Classes.EXhelper;
-import Classes.Product;
+import Models.Product;
 import Classes.WarehouseClass;
 import java.util.List;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
  
 /**
  *
@@ -33,7 +32,13 @@ public class warehouseProduct extends javax.swing.JPanel {
         TablePl.getColumn(1).setPreferredWidth(70);   
         TablePl.getColumn(2).setPreferredWidth(70);    
         TablePl.getColumn(3).setPreferredWidth(70);    
-        TablePl.getColumn(4).setPreferredWidth(200); 
+        TablePl.getColumn(4).setPreferredWidth(200);
+        TablePl.getColumn(5).setPreferredWidth(0);
+        
+        jTablePl.getColumnModel().getColumn(5).setWidth(0);
+        jTablePl.getColumnModel().getColumn(5).setMinWidth(0);
+        jTablePl.getColumnModel().getColumn(5).setMaxWidth(0); 
+        
         showName.setText(name);
         jTablePl.getColumnModel().getColumn(3).setCellRenderer(new EXhelper.DecimalFormatRenderer());         
 
@@ -45,8 +50,15 @@ public class warehouseProduct extends javax.swing.JPanel {
             if(index != -1){
                 DefaultTableModel model = (DefaultTableModel) jTablePl.getModel();
                
-                String productname = (String) model.getValueAt(index, 1);
-                System.out.println(productname);
+                int id_p = (int) model.getValueAt(index, 5);
+                String note = (String) model.getValueAt(index, 4);
+                String invoice = (String) model.getValueAt(index, 1);
+                
+                Product product = new Product(id_p);
+                product.setInvoice(invoice);
+                product.setNote(note);
+                product.update(); 
+            
             }
           }
           
@@ -62,7 +74,7 @@ public class warehouseProduct extends javax.swing.JPanel {
         
         for(Product nn : result) {
        
-            Object[] row = {nn.getDate(), nn.getInvoice(), nn.getBalance_left(), nn.getBalance(), nn.getNote()};
+            Object[] row = {nn.getDate(), nn.getInvoice(), nn.getBalance_left(), nn.getBalance(), nn.getNote(), nn.getID()};
             model.addRow(row);
              
         
@@ -94,11 +106,11 @@ public class warehouseProduct extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Data", "Sąskaita", "Likutis", "Pridėta", "Pastaba", "Kita"
+                "Data", "Sąskaita", "Likutis", "Pridėta", "Pastaba", "#ID"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 false, true, false, false, true, false
