@@ -10,6 +10,10 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import static java.util.Collections.list;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -84,9 +88,18 @@ public class Product {
 
        MysqlConnect mysqlConnect = new MysqlConnect();
         try {
-            System.out.println(note);
+            
+            List<String> sqlList = new ArrayList<String>();
+            if(note != ""){
+                sqlList.add("note='"+note+"'");
+            }
+            if(note != ""){
+                sqlList.add("invoice='"+invoice+"'");
+            }
+            String listString = sqlList.stream().map(Object::toString).collect(Collectors.joining(", "));
+            
             Statement st = mysqlConnect.connect().createStatement();   
-            st.executeUpdate("UPDATE dm_balance_products SET note ='"+note+"', invoice='"+invoice+"' where id='"+id+"'");
+            st.executeUpdate("UPDATE dm_balance_products SET "+listString+" where id='"+id+"'");
 
         } catch (SQLException e) {
         } finally {
