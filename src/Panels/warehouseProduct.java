@@ -8,8 +8,11 @@ import Classes.EXhelper;
 import Classes.Product;
 import Classes.WarehouseClass;
 import java.util.List;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
  
 /**
  *
@@ -21,19 +24,34 @@ public class warehouseProduct extends javax.swing.JPanel {
      * Creates new form warehouseProduct
      * @param id
      */
-    public warehouseProduct(int id) {
+    public warehouseProduct(int id, String name) {
         initComponents();
         List<Product> result = WarehouseClass.getProduct(id);
         
         TableColumnModel TablePl = jTablePl.getColumnModel();
-        TablePl.getColumn(0).setPreferredWidth(50);    
-        TablePl.getColumn(1).setPreferredWidth(50);   
-        TablePl.getColumn(2).setPreferredWidth(50);    
-        TablePl.getColumn(3).setPreferredWidth(50);    
+        TablePl.getColumn(0).setPreferredWidth(80);    
+        TablePl.getColumn(1).setPreferredWidth(70);   
+        TablePl.getColumn(2).setPreferredWidth(70);    
+        TablePl.getColumn(3).setPreferredWidth(70);    
         TablePl.getColumn(4).setPreferredWidth(200); 
-        
+        showName.setText(name);
         jTablePl.getColumnModel().getColumn(3).setCellRenderer(new EXhelper.DecimalFormatRenderer());         
-  
+
+        jTablePl.getModel().addTableModelListener(new TableModelListener() {
+            
+          public void tableChanged(TableModelEvent e) {
+            int index  = jTablePl.getSelectedRow();
+            
+            if(index != -1){
+                DefaultTableModel model = (DefaultTableModel) jTablePl.getModel();
+               
+                String productname = (String) model.getValueAt(index, 1);
+                System.out.println(productname);
+            }
+          }
+          
+        }); 
+        
         DefaultTableModel model = (DefaultTableModel) jTablePl.getModel();
             
             while (model.getRowCount() > 0) {
@@ -43,16 +61,16 @@ public class warehouseProduct extends javax.swing.JPanel {
  
         
         for(Product nn : result) {
-            
-            double balance = nn.getBalance();
-            Object[] row = {"1", "1", "1", balance};
+       
+            Object[] row = {nn.getDate(), nn.getInvoice(), nn.getBalance_left(), nn.getBalance(), nn.getNote()};
             model.addRow(row);
              
         
         }
             
     }
-
+ 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -62,12 +80,14 @@ public class warehouseProduct extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        showName = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTablePl = new javax.swing.JTable();
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jLabel1.setText("Likučiai");
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        showName.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        showName.setText("Likučiai");
 
         jTablePl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -81,7 +101,7 @@ public class warehouseProduct extends javax.swing.JPanel {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, true, false, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -90,6 +110,11 @@ public class warehouseProduct extends javax.swing.JPanel {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTablePl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTablePlMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTablePl);
@@ -101,7 +126,7 @@ public class warehouseProduct extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addComponent(showName)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -109,18 +134,22 @@ public class warehouseProduct extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(showName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTablePlMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePlMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTablePlMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTablePl;
+    private javax.swing.JLabel showName;
     // End of variables declaration//GEN-END:variables
 
   

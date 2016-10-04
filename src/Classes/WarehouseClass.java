@@ -53,7 +53,7 @@ public class WarehouseClass {
 
     public static List<Product> getProduct(int id){
         
-    List<Product> products = new ArrayList<Product>();
+    List<Product> products = new ArrayList<>();
         
         MysqlConnect mysqlConnect = new MysqlConnect();
         try {
@@ -62,6 +62,10 @@ public class WarehouseClass {
             while(res.next()) {
             Product product = new Product();
             product.setBalance(res.getDouble("balance"));
+            product.setBalance_left(res.getDouble("balance_left"));
+            product.setInvoice(res.getString("invoice"));
+            product.setNote(res.getString("note"));
+            product.setDate(res.getDate("data"));
             products.add(product);
             }
             
