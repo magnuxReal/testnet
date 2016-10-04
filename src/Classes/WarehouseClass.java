@@ -51,29 +51,26 @@ public class WarehouseClass {
         return balance_left;
     }
 
-    public static Map<Pair, Integer> getProduct(int id){
+    public static List<Product> getProduct(int id){
         
-    Map<Pair, Integer> data = new HashMap<Pair, Integer>();
+    List<Product> products = new ArrayList<Product>();
         
         MysqlConnect mysqlConnect = new MysqlConnect();
         try {
             Statement st = mysqlConnect.connect().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM  dm_balance_products WHERE id_product = '"+id+"'");
             while(res.next()) {
-           
+            Product product = new Product();
+            product.setBalance(res.getString("balance"));
+            products.add(product);
+            }
             
-            Pair p1 = new Pair<>("balance", res.getString("balance"));
-            Pair p2 = new Pair<>("balance2", res.getString("balance"));
-            data.put(p1, id);
-            data.put(p2, id);
-
-             }
         } catch (SQLException e) {
         } finally {
             mysqlConnect.disconnect();
              
         }
-       return data;
+       return products;
     }
 
     

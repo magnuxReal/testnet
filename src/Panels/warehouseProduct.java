@@ -4,16 +4,20 @@
  * and open the template in the editor.
  */
 package Panels;
+import Classes.Product;
 import Classes.WarehouseClass;
 import Main.MysqlConnect;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import static java.util.Collections.list;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javafx.util.Pair;
+ 
 /**
  *
  * @author Karolis
@@ -26,22 +30,18 @@ public class warehouseProduct extends javax.swing.JPanel {
      */
     public warehouseProduct(int id) {
         initComponents();
-        Map<Pair, Integer> result = WarehouseClass.getProduct(id);
-        
-       result.forEach((key, value) -> {
-    System.out.println("Key : " + key + " Value : " + value);
-});   
- 
+        List<Product> result = WarehouseClass.getProduct(id);
+
+        for(Product nn : result) {
+            System.out.println(nn.getBalance());
+        }
+            
     }
 
 
-    public String getVal(String get){
-        String[] ss = get.split("=");
-
-        
-        
-        
-        return ss[1];
+    private String getVal(Pair set){
+ 
+        return (String) set.getValue();
         
     }
 
@@ -80,4 +80,6 @@ public class warehouseProduct extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
+
+  
 }

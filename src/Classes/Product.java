@@ -9,10 +9,19 @@ package Classes;
  *
  * @author Karolis
  */
-class Product {
-
+public class Product {
+    String balance;
     void balance(String string) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    void setBalance(String string) {
+        balance = string;
+       
+    }
+
+    public String getBalance() {
+        return balance;
     }
     
 }
