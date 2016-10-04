@@ -165,6 +165,11 @@ public class warehouse extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
         jTextBalance.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -182,7 +187,7 @@ public class warehouse extends javax.swing.JPanel {
             }
         });
 
-        jPanel3.setLayout(new java.awt.GridLayout());
+        jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -282,7 +287,7 @@ public class warehouse extends javax.swing.JPanel {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         int index  = jTable1.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        
+        jTable2.getSelectionModel().clearSelection();
         jPanel3.removeAll();
         jPanel3.revalidate();
         jPanel3.repaint();
@@ -291,6 +296,19 @@ public class warehouse extends javax.swing.JPanel {
         int id = (int) model.getValueAt(index, 0);
         addNewPanel(new warehouseProduct(id));
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        int index  = jTable2.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        jTable1.getSelectionModel().clearSelection();
+        jPanel3.removeAll();
+        jPanel3.revalidate();
+        jPanel3.repaint();
+
+        
+        int id = (int) model.getValueAt(index, 0);
+        addNewPanel(new warehouseProduct(id));
+    }//GEN-LAST:event_jTable2MouseClicked
 
     private void balance(){
         MysqlConnect mysqlConnect = new MysqlConnect();
