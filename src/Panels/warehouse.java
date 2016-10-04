@@ -5,6 +5,7 @@
  */
 package Panels;
 
+import Classes.EXhelper;
 import Classes.WarehouseClass;
 import Main.MysqlConnect;
 import java.awt.Component;
@@ -52,8 +53,8 @@ public class warehouse extends javax.swing.JPanel {
         tcm2.getColumn(1).setPreferredWidth(200);
         tcm2.getColumn(2).setPreferredWidth(100);
         
-        jTable1.getColumnModel().getColumn(2).setCellRenderer(new DecimalFormatRenderer());         
-        jTable2.getColumnModel().getColumn(2).setCellRenderer(new DecimalFormatRenderer());  
+        jTable1.getColumnModel().getColumn(2).setCellRenderer(new EXhelper.DecimalFormatRenderer());         
+        jTable2.getColumnModel().getColumn(2).setCellRenderer(new EXhelper.DecimalFormatRenderer());  
         resetCombo();
         balance();
     }
@@ -281,6 +282,12 @@ public class warehouse extends javax.swing.JPanel {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         int index  = jTable1.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        
+        jPanel3.removeAll();
+        jPanel3.revalidate();
+        jPanel3.repaint();
+
+        
         int id = (int) model.getValueAt(index, 0);
         addNewPanel(new warehouseProduct(id));
     }//GEN-LAST:event_jTable1MouseClicked
@@ -356,24 +363,4 @@ private void resetCombo(){
     private javax.swing.JTextField jTextBalance;
     // End of variables declaration//GEN-END:variables
 
-    
-   static class DecimalFormatRenderer extends DefaultTableCellRenderer {
-      private static final DecimalFormat formatter = new DecimalFormat( "#.###" );
- 
-      public Component getTableCellRendererComponent(
-         JTable table, Object value, boolean isSelected,
-         boolean hasFocus, int row, int column) {
- 
-         // First format the cell value as required
- 
-         value = formatter.format((Number)value);
- 
-            // And pass it on to parent class
- 
-         return super.getTableCellRendererComponent(
-            table, value, isSelected, hasFocus, row, column );
-      }
-   }
-    
-    
 }

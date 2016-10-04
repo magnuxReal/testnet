@@ -4,19 +4,12 @@
  * and open the template in the editor.
  */
 package Panels;
+import Classes.EXhelper;
 import Classes.Product;
 import Classes.WarehouseClass;
-import Main.MysqlConnect;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import static java.util.Collections.list;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import javafx.util.Pair;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
  
 /**
  *
@@ -31,18 +24,33 @@ public class warehouseProduct extends javax.swing.JPanel {
     public warehouseProduct(int id) {
         initComponents();
         List<Product> result = WarehouseClass.getProduct(id);
-
+        
+        TableColumnModel TablePl = jTablePl.getColumnModel();
+        TablePl.getColumn(0).setPreferredWidth(50);    
+        TablePl.getColumn(1).setPreferredWidth(50);   
+        TablePl.getColumn(2).setPreferredWidth(50);    
+        TablePl.getColumn(3).setPreferredWidth(50);    
+        TablePl.getColumn(4).setPreferredWidth(200); 
+        
+        jTablePl.getColumnModel().getColumn(3).setCellRenderer(new EXhelper.DecimalFormatRenderer());         
+  
+        DefaultTableModel model = (DefaultTableModel) jTablePl.getModel();
+            
+            while (model.getRowCount() > 0) {
+                    model.removeRow(0);
+            }
+            
+ 
+        
         for(Product nn : result) {
-            System.out.println(nn.getBalance());
+            
+            double balance = nn.getBalance();
+            Object[] row = {"1", "1", "1", balance};
+            model.addRow(row);
+             
+        
         }
             
-    }
-
-
-    private String getVal(Pair set){
- 
-        return (String) set.getValue();
-        
     }
 
     /**
@@ -55,8 +63,36 @@ public class warehouseProduct extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTablePl = new javax.swing.JTable();
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel1.setText("Likučiai");
+
+        jTablePl.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Data", "Sąskaita", "Likutis", "Pridėta", "Pastaba", "Kita"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTablePl);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -64,21 +100,27 @@ public class warehouseProduct extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(356, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(275, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTablePl;
     // End of variables declaration//GEN-END:variables
 
   

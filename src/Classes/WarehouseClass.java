@@ -61,7 +61,7 @@ public class WarehouseClass {
             ResultSet res = st.executeQuery("SELECT * FROM  dm_balance_products WHERE id_product = '"+id+"'");
             while(res.next()) {
             Product product = new Product();
-            product.setBalance(res.getString("balance"));
+            product.setBalance(res.getDouble("balance"));
             products.add(product);
             }
             
