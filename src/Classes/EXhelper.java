@@ -7,15 +7,17 @@ package Classes;
 
 import java.awt.Component;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-/**
- *
- * @author DovanuSala.lt
- */
+ 
 public class EXhelper {
-      
+    //create adittional number formating 0.000
     public static class DecimalFormatRenderer extends DefaultTableCellRenderer {
       private static final DecimalFormat formatter = new DecimalFormat( "0.000" );
  
@@ -32,5 +34,24 @@ public class EXhelper {
          return super.getTableCellRendererComponent(
             table, value, isSelected, hasFocus, row, column );
       }
-   } 
+   }
+    
+    //generate update fields for mysql UPDATE function
+    public static String uConstruct(Map<String, String> map){
+ 
+       List<String> sqlList = new ArrayList<String>();
+        
+       for(String key: map.keySet()){
+           if(map.get(key) != null && !map.get(key).equals("0.0")){
+               System.out.println(""+key+"='"+map.get(key)+"'");
+                sqlList.add(""+key+"='"+map.get(key)+"'");
+           }
+       }
+       
+       String listString = sqlList.stream().map(Object::toString).collect(Collectors.joining(", "));
+       
+        return listString;
+        
+    }
+    
 }

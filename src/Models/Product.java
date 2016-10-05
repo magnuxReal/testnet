@@ -5,14 +5,19 @@
  */
 package Models;
 
+import Classes.EXhelper;
 import Main.MysqlConnect;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import static java.util.Collections.list;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -88,16 +93,31 @@ public class Product {
 
        MysqlConnect mysqlConnect = new MysqlConnect();
         try {
+
+            Map<String, String> arr = new HashMap<String, String>();
             
-            List<String> sqlList = new ArrayList<String>();
-            if(note != ""){
-                sqlList.add("note='"+note+"'");
-            }
-            if(note != ""){
-                sqlList.add("invoice='"+invoice+"'");
-            }
-            String listString = sqlList.stream().map(Object::toString).collect(Collectors.joining(", "));
+            //convert double to string
+            String balance_s = String.valueOf(balance);
+            String balance_left_s = String.valueOf(balance_left);
             
+             
+            // exception for date
+            if(date != null){
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                String date_s = dateFormat.format(date);
+                arr.put("data", date_s);
+            }
+            
+            //add values to constructor
+            arr.put("balance", balance_s);
+            arr.put("balance_left", balance_left_s);
+            
+            arr.put("note", note);
+            arr.put("invoice", invoice);
+            
+            //generate update fields in nonstructor class
+            String listString = EXhelper.uConstruct(arr);
+      
             Statement st = mysqlConnect.connect().createStatement();   
             st.executeUpdate("UPDATE dm_balance_products SET "+listString+" where id='"+id+"'");
 
