@@ -44,15 +44,21 @@ public class warehouseAddProduct extends javax.swing.JFrame {
             obj = new warehouseAddProduct(id, name);   
         }
         
-       // loadVars(id, name);
+        obj.loadVars(id, name);
         
         return obj;
     }
     
-    private void loadVars(int id, String name){
+    public void loadVars(int id, String name) {
         jLabelname.setText(name);
- 
     }
+    
+    /**
+     *
+     * @param id
+     * @param name
+     */
+ 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -198,4 +204,6 @@ public class warehouseAddProduct extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     // End of variables declaration//GEN-END:variables
+
+ 
 }

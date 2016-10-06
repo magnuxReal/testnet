@@ -287,6 +287,8 @@ public class warehouse extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBoxBalanceActionPerformed
 
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        warehouseAddProduct.getObj(0, "").setVisible(false);
+        
         int index  = jTable2.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         jTable1.getSelectionModel().clearSelection();
@@ -300,7 +302,7 @@ public class warehouse extends javax.swing.JPanel {
     }//GEN-LAST:event_jTable2MouseClicked
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-
+        warehouseAddProduct.getObj(0, "").setVisible(false);
         int index  = jTable1.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         jTable2.getSelectionModel().clearSelection();
