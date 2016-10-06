@@ -51,6 +51,7 @@ public class warehouseAddProduct extends javax.swing.JFrame {
     
     public void loadVars(int id, String name) {
         jLabelname.setText(name);
+ 
     }
     
     /**
@@ -82,6 +83,7 @@ public class warehouseAddProduct extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pridėti ");
+        setAlwaysOnTop(true);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setName("whpa"); // NOI18N
 
