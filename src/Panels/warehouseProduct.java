@@ -19,13 +19,15 @@ import javax.swing.table.TableColumnModel;
  * @author Karolis
  */
 public class warehouseProduct extends javax.swing.JPanel {
-
+    private int id_product;
+    private String product_name;
     /**
      * Creates new form warehouseProduct
      * @param id
      */
     public warehouseProduct(int id, String name) {
-
+        id_product = id;
+        product_name = name;
         initComponents();
         List<Product> result = WarehouseClass.getProduct(id);
         
@@ -98,6 +100,7 @@ public class warehouseProduct extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTablePl = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jLoadedID = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -141,6 +144,8 @@ public class warehouseProduct extends javax.swing.JPanel {
             }
         });
 
+        jLoadedID.setText("#id");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -148,16 +153,24 @@ public class warehouseProduct extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(showName)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(showName)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLoadedID))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(showName)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(showName)
+                    .addComponent(jLoadedID))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -171,14 +184,15 @@ public class warehouseProduct extends javax.swing.JPanel {
     }//GEN-LAST:event_jTablePlMouseClicked
 
     private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
-
-        warehouseAddProduct.getObj().setVisible(true);
+    
+        warehouseAddProduct.getObj(id_product, product_name).setVisible(true);
         
     }//GEN-LAST:event_jButton1MousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLoadedID;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTablePl;
     private javax.swing.JLabel showName;
