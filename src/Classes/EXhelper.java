@@ -53,5 +53,10 @@ public class EXhelper {
         return listString;
         
     }
+
+    public static double noComma(String dd){
+        String numb = String.valueOf(dd);
+        return Double.parseDouble(numb.replaceAll(",", "."));
+    }
     
 }

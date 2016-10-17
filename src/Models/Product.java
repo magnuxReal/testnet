@@ -7,7 +7,7 @@ package Models;
 
 import Classes.EXhelper;
 import Main.MysqlConnect;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -126,6 +126,21 @@ public class Product {
             mysqlConnect.disconnect();      
         }
         
+    }
+
+    public void save() {
+        MysqlConnect mysqlConnect = new MysqlConnect();
+
+        try {
+            Statement st = mysqlConnect.connect().createStatement(); 
+ 
+            st.executeUpdate("INSERT INTO dm_balance_products (id_product,balance,balance_left,data,invoice,note) VALUES ('"+id+"', '"+balance+"', '"+balance_left+"', '"+new SimpleDateFormat("yyyy-MM-dd").format(date) +"', '"+invoice+"', '"+note+"')");
+             
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            mysqlConnect.disconnect();
+        }
     }
     
 }

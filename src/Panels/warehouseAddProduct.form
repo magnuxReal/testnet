@@ -43,7 +43,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jXDatePicker1" max="32767" attributes="0"/>
+                          <Component id="jXDate" max="32767" attributes="0"/>
                           <Component id="jTextField2" alignment="0" max="32767" attributes="0"/>
                           <Component id="jTextField3" alignment="0" max="32767" attributes="0"/>
                           <Component id="jTextField1" alignment="0" max="32767" attributes="0"/>
@@ -63,7 +63,7 @@
               <Component id="jLabelname" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="13" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jXDatePicker1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jXDate" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -89,7 +89,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="org.jdesktop.swingx.JXDatePicker" name="jXDatePicker1">
+    <Component class="org.jdesktop.swingx.JXDatePicker" name="jXDate">
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField1">
     </Component>
@@ -99,6 +99,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Prid&#x117;ti"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton1MousePressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>

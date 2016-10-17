@@ -5,12 +5,16 @@
  */
 package Panels;
 
+import Classes.EXhelper;
+import Models.Product;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
-import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.time.LocalDate;
- 
+import javax.swing.JTextField;
+import Panels.warehouse;
 
 /**
  *
@@ -29,12 +33,19 @@ public class warehouseAddProduct extends javax.swing.JFrame {
         this.revalidate();
         PointerInfo a = MouseInfo.getPointerInfo();
         Point b = a.getLocation();
-        int x = (int) b.getX()-200;
-        int y = (int) b.getY()-200;
+        int x = (int) b.getX();
+        int y = (int) b.getY();
         this.setLocation(x,y);
-         
-        jXDatePicker1.setFormats(new String[]{"yyyy-MM-dd"});
-        jXDatePicker1.setDate(Date.valueOf(LocalDate.now()));
+        jTextField2.setText("0");
+        Date date = new Date();
+        jXDate.setFormats(new String[]{"yyyy-MM-dd"});
+        jXDate.setDate(date);
+        id_product = id;
+        product_name = name;
+     
+ 
+ 
+
         
     }
     
@@ -51,7 +62,8 @@ public class warehouseAddProduct extends javax.swing.JFrame {
     
     public void loadVars(int id, String name) {
         jLabelname.setText(name);
- 
+        id_product = id;
+        product_name = name;
     }
     
     /**
@@ -70,7 +82,7 @@ public class warehouseAddProduct extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
+        jXDate = new org.jdesktop.swingx.JXDatePicker();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -88,6 +100,11 @@ public class warehouseAddProduct extends javax.swing.JFrame {
         setName("whpa"); // NOI18N
 
         jButton1.setText("Pridėti");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton1MousePressed(evt);
+            }
+        });
 
         jLabel1.setText("Data");
 
@@ -118,7 +135,7 @@ public class warehouseAddProduct extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton1)
-                            .addComponent(jXDatePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jXDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jTextField2)
                             .addComponent(jTextField3)
                             .addComponent(jTextField1))
@@ -133,7 +150,7 @@ public class warehouseAddProduct extends javax.swing.JFrame {
                 .addComponent(jLabelname)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -154,6 +171,26 @@ public class warehouseAddProduct extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
+        Date data = (Date) jXDate.getDate();
+        double balance = EXhelper.noComma(jTextField2.getText());
+       
+        
+        Product product = new Product(id_product);
+        product.setDate(data);
+        product.setBalance_left(balance);
+        product.setBalance(balance);
+        product.setInvoice(jTextField1.getText());
+ 
+        product.setNote(jTextField3.getText());
+        product.save();
+        
+        warehouse.refresh();
+        
+        this.dispose();
+        
+    }//GEN-LAST:event_jButton1MousePressed
 
     /**
      * @param args the command line arguments
@@ -204,7 +241,7 @@ public class warehouseAddProduct extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
+    private org.jdesktop.swingx.JXDatePicker jXDate;
     // End of variables declaration//GEN-END:variables
 
  

@@ -33,6 +33,9 @@ import javax.swing.table.TableModel;
  * @author Karolis
  */
 public class warehouse extends javax.swing.JPanel {
+    private static JPanel  reff = null;
+
+ 
 
     /**
      * Creates new form warehouse
@@ -57,6 +60,7 @@ public class warehouse extends javax.swing.JPanel {
         jTable2.getColumnModel().getColumn(2).setCellRenderer(new EXhelper.DecimalFormatRenderer());  
         resetCombo();
         balance();
+        reff = this;
     }
 
     /**
@@ -318,6 +322,8 @@ public class warehouse extends javax.swing.JPanel {
     private void balance(){
         MysqlConnect mysqlConnect = new MysqlConnect();
         try {
+            
+           
             Statement st = mysqlConnect.connect().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM  dm_balance");
             
@@ -370,6 +376,17 @@ private void resetCombo(){
         jPanel3.add(changeTo);        
     }
     
+    public static void refresh(){
+        warehouse ok = (warehouse) reff;
+        ok.newwar();
+    }
+    
+    public void newwar(){
+        balance();
+    }
+    
+ 
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonBalance;
     private javax.swing.JComboBox<String> jComboBoxBalance;
@@ -385,5 +402,7 @@ private void resetCombo(){
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextBalance;
     // End of variables declaration//GEN-END:variables
+
+    
 
 }
