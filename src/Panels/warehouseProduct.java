@@ -45,7 +45,8 @@ public class warehouseProduct extends javax.swing.JPanel {
         
         showName.setText(name);
         jTablePl.getColumnModel().getColumn(3).setCellRenderer(new EXhelper.DecimalFormatRenderer());         
-
+        jTablePl.getColumnModel().getColumn(2).setCellRenderer(new EXhelper.DecimalFormatRenderer());
+        
         jTablePl.getModel().addTableModelListener(new TableModelListener() {
             
           public void tableChanged(TableModelEvent e) {
