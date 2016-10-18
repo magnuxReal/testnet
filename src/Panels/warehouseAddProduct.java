@@ -15,6 +15,8 @@ import java.util.Date;
 import java.time.LocalDate;
 import javax.swing.JTextField;
 import Panels.warehouse;
+import java.awt.Color;
+import javax.swing.BorderFactory;
 
 /**
  *
@@ -61,6 +63,10 @@ public class warehouseAddProduct extends javax.swing.JFrame {
     }
     
     public void loadVars(int id, String name) {
+        jTextField1.setText("");
+        jTextField2.setText("0");
+        jTextField3.setText("");
+        jTextField2.setBorder(BorderFactory.createSoftBevelBorder(1, Color.gray, Color.gray));
         jLabelname.setText(name);
         id_product = id;
         product_name = name;
@@ -176,19 +182,22 @@ public class warehouseAddProduct extends javax.swing.JFrame {
         Date data = (Date) jXDate.getDate();
         double balance = EXhelper.noComma(jTextField2.getText());
        
-        
-        Product product = new Product(id_product);
-        product.setDate(data);
-        product.setBalance_left(balance);
-        product.setBalance(balance);
-        product.setInvoice(jTextField1.getText());
- 
-        product.setNote(jTextField3.getText());
-        product.save();
-        
-        warehouse.refresh(id_product);
-   
-        this.dispose(); 
+        if(balance > 0){
+            Product product = new Product(id_product);
+            product.setDate(data);
+            product.setBalance_left(balance);
+            product.setBalance(balance);
+            product.setInvoice(jTextField1.getText());
+
+            product.setNote(jTextField3.getText());
+            product.save();
+
+            warehouse.refresh(id_product);
+
+            this.dispose(); 
+        }else{
+            jTextField2.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+        }
     }//GEN-LAST:event_jButton1MousePressed
 
     /**
