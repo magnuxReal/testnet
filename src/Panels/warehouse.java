@@ -376,13 +376,39 @@ private void resetCombo(){
         jPanel3.add(changeTo);        
     }
     
-    public static void refresh(){
+    public static void refresh(int id_get){
         warehouse ok = (warehouse) reff;
-        ok.newwar();
+        ok.newwar(id_get);
     }
     
-    public void newwar(){
+    public void newwar(int id_get){
         balance();
+        DefaultTableModel model1 = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel model2 = (DefaultTableModel) jTable2.getModel();
+        
+        int number_id = 0;
+        String p_name = "";
+        
+        for (int count = 0; count < model1.getRowCount(); count++){ 
+            number_id = (int) model1.getValueAt(count, 0);
+            p_name = model1.getValueAt(count, 1).toString();
+
+            if(number_id == id_get){
+                addNewPanel(new warehouseProduct(id_get, p_name));
+                jTable1.setRowSelectionInterval(count, count);
+            }   
+        }
+
+        for (int count = 0; count < model2.getRowCount(); count++){ 
+            number_id = (int) model2.getValueAt(count, 0);
+            p_name = model2.getValueAt(count, 1).toString();
+
+            if(number_id == id_get){
+                jTable2.setRowSelectionInterval(count, count);
+                addNewPanel(new warehouseProduct(id_get, p_name));
+            }   
+        }
+        
     }
     
  

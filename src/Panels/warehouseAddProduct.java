@@ -186,10 +186,9 @@ public class warehouseAddProduct extends javax.swing.JFrame {
         product.setNote(jTextField3.getText());
         product.save();
         
-        warehouse.refresh();
-        
-        this.dispose();
-        
+        warehouse.refresh(id_product);
+   
+        this.dispose(); 
     }//GEN-LAST:event_jButton1MousePressed
 
     /**
