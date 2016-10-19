@@ -5,6 +5,7 @@
  */
 package Panels;
 
+import Classes.EXhelper;
 import Classes.WarehouseClass;
 import Main.MysqlConnect;
 import java.sql.ResultSet;
@@ -18,11 +19,12 @@ import javax.swing.table.TableColumnModel;
  * @author Karolis
  */
 public class recipeProducts extends javax.swing.JPanel {
-
+    private int id_recipe;
     /**
      * Creates new form recipeProducts
      */
-    public recipeProducts() {
+    public recipeProducts(int id) {
+        id_recipe = id;
         initComponents();
         TableColumnModel tcm1 = jTable1.getColumnModel();
         tcm1.getColumn(0).setPreferredWidth(30);    
@@ -36,6 +38,9 @@ public class recipeProducts extends javax.swing.JPanel {
         tcm3.getColumn(0).setPreferredWidth(20);    
         tcm3.getColumn(1).setPreferredWidth(120);
         tcm3.getColumn(2).setPreferredWidth(70);
+        
+        jTable3.getColumnModel().getColumn(2).setCellRenderer(new EXhelper.DecimalFormatRenderer()); 
+        
         jButton1.setVisible(false);
         jLabel1.setVisible(false);
         load_products();
@@ -45,10 +50,22 @@ public class recipeProducts extends javax.swing.JPanel {
         MysqlConnect mysqlConnect = new MysqlConnect();
         try {
             Statement st = mysqlConnect.connect().createStatement();
+            Statement st2 = mysqlConnect.connect().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM  dm_balance");
-            
+                        ResultSet res_recipe = st2.executeQuery("SELECT rp.id, rp.quantyti, rp.id_precipe, b.name "
+                    + "FROM  dm_recipe_product AS rp "
+                    + "LEFT JOIN dm_balance AS b ON (b.id=rp.id_product) "
+                    + "WHERE rp.id_precipe='"+id_recipe+"' ORDER BY b.type ASC, b.id ASC");
+  /*
+                        ResultSet res_recipe = st2.executeQuery("SELECT rp.id, rp.quantyti, b.name "
+                    + "FROM  dm_recipe_product AS rp "
+                    + "LEFT JOIN dm_balance AS b ON(b.id=rp.id_product)"
+                    + "WHERE rp.id_precipe='"+id_recipe+"'");
+            */
+                      
             DefaultTableModel model1 = (DefaultTableModel) jTable1.getModel();
             DefaultTableModel model2 = (DefaultTableModel) jTable2.getModel();
+            DefaultTableModel model3 = (DefaultTableModel) jTable3.getModel();
             
             while (model1.getRowCount() > 0) {
                     model1.removeRow(0);
@@ -58,6 +75,9 @@ public class recipeProducts extends javax.swing.JPanel {
                     model2.removeRow(0);
             } 
             
+            while (model3.getRowCount() > 0) {
+                    model3.removeRow(0);
+            }           
             while (res.next()) {
         
                 int type = res.getInt("type");
@@ -74,8 +94,20 @@ public class recipeProducts extends javax.swing.JPanel {
                 }
               
             }  
-        
+
+            while (res_recipe.next()) {
+                 
+                int id = res_recipe.getInt("id");
+       
+                double quantyti = res_recipe.getDouble("quantyti");
+                String name  = res_recipe.getString("name");
+                 
+                    Object[] row = {id, name, quantyti};
+                    model3.addRow(row);
+            } 
+            
         } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
             mysqlConnect.disconnect();
              
@@ -162,6 +194,11 @@ public class recipeProducts extends javax.swing.JPanel {
         jScrollPane2.setViewportView(jTable2);
 
         jButton1.setText("Pridėti>>");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -243,6 +280,38 @@ public class recipeProducts extends javax.swing.JPanel {
         jLabel1.setVisible(true);
         jLabel1.setText(name);
     }//GEN-LAST:event_jTable2MouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        int index1  = jTable1.getSelectedRow();
+        int index2  = jTable2.getSelectedRow();
+        DefaultTableModel model1 = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel model2 = (DefaultTableModel) jTable2.getModel();
+        int current_index = 0;
+        
+        if(index1 != -1){
+            current_index = (int) model1.getValueAt(index1, 0);
+        }
+        
+        if(index2 != -1){
+            current_index = (int) model2.getValueAt(index2, 0);
+        }  
+        
+        if(current_index > 0){
+            MysqlConnect mysqlConnect = new MysqlConnect();
+            try {
+                Statement st = mysqlConnect.connect().createStatement(); 
+
+                st.executeUpdate("INSERT INTO dm_recipe_product (id_precipe, id_product, quantyti) VALUES ('"+id_recipe+"', '"+current_index+"', 0)");
+
+            } catch (SQLException e) {
+            } finally {
+                mysqlConnect.disconnect();
+                load_products();
+                jButton1.setVisible(false);
+                jLabel1.setVisible(false);
+            }
+        }
+    }//GEN-LAST:event_jButton1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

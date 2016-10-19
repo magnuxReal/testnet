@@ -177,8 +177,8 @@ public class recipe extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelSide, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanelSide, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -186,31 +186,32 @@ public class recipe extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addGap(0, 70, Short.MAX_VALUE))
+                        .addComponent(jButton1))
                     .addComponent(jPanelSide, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
   
         JPanel newPanel = new JPanel(new GridBagLayout());
-        newPanel.setBackground(new Color(240,240,240));
+   
+        
+        newPanel.setBackground(new Color(255,255,255));
         GridBagConstraints constraints = new GridBagConstraints();
         save_recipe.setBackground(new JButton().getBackground());
         constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = new Insets(1, 1, 1, 1);
-        
+  
         // add components to the panel
         constraints.gridx = 0;
         constraints.gridy = 0;     
         newPanel.add(recipe_n, constraints);
- 
+    
         constraints.gridx = 1;
         newPanel.add(recipe_name, constraints);
          
@@ -223,9 +224,10 @@ public class recipe extends javax.swing.JPanel {
          
         constraints.gridx = 1;
         constraints.gridy = 2;
-        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.fill = GridBagConstraints.BOTH;
         newPanel.add(save_recipe, constraints);
-  
+   
         save_recipe.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 String name = recipe_name.getText();
@@ -257,6 +259,7 @@ public class recipe extends javax.swing.JPanel {
         
         newPanel.setBorder(new CompoundBorder(new EmptyBorder(10, 10, 10, 10), BorderFactory.createTitledBorder("Naujas receptas")));
         newPanel.setSize(440, 190);
+       
         addNewPanel(newPanel);
          
     }//GEN-LAST:event_jButton1MousePressed
@@ -267,7 +270,7 @@ public class recipe extends javax.swing.JPanel {
         int id = (int) model.getValueAt(index, 0);
         String name = (String) model.getValueAt(index, 1);
         
-        addNewPanel(new recipeProducts());
+        addNewPanel(new recipeProducts(id));
   
     }//GEN-LAST:event_jTable1MouseClicked
 
