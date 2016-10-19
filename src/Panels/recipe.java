@@ -5,12 +5,18 @@
  */
 package Panels;
 
+import Classes.WarehouseClass;
+import Main.MysqlConnect;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -18,9 +24,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 /**
@@ -43,7 +51,38 @@ public class recipe extends javax.swing.JPanel {
         tcm.getColumn(0).setPreferredWidth(50);    
         tcm.getColumn(1).setPreferredWidth(200);
         tcm.getColumn(2).setPreferredWidth(100);
+        refreshTable();
+    }
+    
+    public void refreshTable(){
+        MysqlConnect mysqlConnect = new MysqlConnect();
+        try {
+
+            Statement st = mysqlConnect.connect().createStatement();
+            ResultSet res = st.executeQuery("SELECT * FROM  dm_recipe");
+            
+            DefaultTableModel model1 = (DefaultTableModel) jTable1.getModel();
+  
+            while (model1.getRowCount() > 0) {
+                    model1.removeRow(0);
+            }
+
+            while (res.next()) {
+                
+                int id = res.getInt("id");
+                String name  = res.getString("name");
+                String note  = res.getString("note");
+                
+                Object[] row = {id, name, note};
+                model1.addRow(row);
+ 
+            }  
         
+        } catch (SQLException e) {
+        } finally {
+            mysqlConnect.disconnect();
+             
+        }
     }
 
     /**
@@ -99,9 +138,21 @@ public class recipe extends javax.swing.JPanel {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, true, true
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -114,7 +165,7 @@ public class recipe extends javax.swing.JPanel {
         });
 
         jPanelSide.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelSide.setLayout(null);
+        jPanelSide.setLayout(new java.awt.GridLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -124,13 +175,10 @@ public class recipe extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelSide, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelSide, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -138,11 +186,13 @@ public class recipe extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanelSide, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addGap(0, 70, Short.MAX_VALUE))
+                    .addComponent(jPanelSide, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -150,10 +200,9 @@ public class recipe extends javax.swing.JPanel {
     private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
   
         JPanel newPanel = new JPanel(new GridBagLayout());
-
         newPanel.setBackground(new Color(240,240,240));
         GridBagConstraints constraints = new GridBagConstraints();
-        
+        save_recipe.setBackground(new JButton().getBackground());
         constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = new Insets(1, 1, 1, 1);
         
@@ -176,13 +225,54 @@ public class recipe extends javax.swing.JPanel {
         constraints.gridy = 2;
         constraints.anchor = GridBagConstraints.CENTER;
         newPanel.add(save_recipe, constraints);
+  
+        save_recipe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                String name = recipe_name.getText();
+                String note = recipe_note.getText();
+                
+                if(name != null && !name.trim().isEmpty()){
+                    
+                MysqlConnect mysqlConnect = new MysqlConnect();
+
+                try {
+                    Statement st = mysqlConnect.connect().createStatement(); 
+
+                    st.executeUpdate("INSERT INTO dm_recipe (name, note) VALUES ('"+name+"', '"+note+"')");
+
+                } catch (SQLException e) {
+                } finally {
+                    mysqlConnect.disconnect();
+                    jPanelSide.removeAll();
+                    jPanelSide.revalidate();
+                    jPanelSide.repaint();
+                    recipe_name.setText("");
+                    recipe_note.setText("");
+                    refreshTable();
+                }
+                }
+              
+            }
+        });
+        
         newPanel.setBorder(new CompoundBorder(new EmptyBorder(10, 10, 10, 10), BorderFactory.createTitledBorder("Naujas receptas")));
         newPanel.setSize(440, 190);
         addNewPanel(newPanel);
-        
-        
+         
     }//GEN-LAST:event_jButton1MousePressed
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int index  = jTable1.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int id = (int) model.getValueAt(index, 0);
+        String name = (String) model.getValueAt(index, 1);
+        
+        addNewPanel(new recipeProducts());
+  
+    }//GEN-LAST:event_jTable1MouseClicked
+
+  
+    
     private void addNewPanel(JPanel changeTo){
         jPanelSide.removeAll();
         jPanelSide.revalidate();
