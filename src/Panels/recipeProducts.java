@@ -8,9 +8,12 @@ package Panels;
 import Classes.EXhelper;
 import Classes.WarehouseClass;
 import Main.MysqlConnect;
+import Models.Product;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
@@ -23,7 +26,7 @@ public class recipeProducts extends javax.swing.JPanel {
     /**
      * Creates new form recipeProducts
      */
-    public recipeProducts(int id) {
+    public recipeProducts(int id, String rname, String rnote) {
         id_recipe = id;
         initComponents();
         TableColumnModel tcm1 = jTable1.getColumnModel();
@@ -40,10 +43,41 @@ public class recipeProducts extends javax.swing.JPanel {
         tcm3.getColumn(2).setPreferredWidth(70);
         
         jTable3.getColumnModel().getColumn(2).setCellRenderer(new EXhelper.DecimalFormatRenderer()); 
-        
+
+        jTable3.getModel().addTableModelListener(new TableModelListener() {
+            
+          public void tableChanged(TableModelEvent e) {
+            int index  = jTable3.getSelectedRow();
+            
+            if(index != -1){
+                DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+                int id_recipe_product = (int) model.getValueAt(index, 0);
+                double recipe_cuantity = (double) model.getValueAt(index, 2);
+                updateRecipeProduct(id_recipe_product, recipe_cuantity);
+            }
+          }
+          
+        });
+        jLabel2.setText(rname);
+        jLabel3.setText(rnote);
         jButton1.setVisible(false);
         jLabel1.setVisible(false);
         load_products();
+    }
+    
+    private void updateRecipeProduct(int id_recipe_product, double recipe_cuantity){
+        MysqlConnect mysqlConnect = new MysqlConnect();
+
+        try {
+            Statement st = mysqlConnect.connect().createStatement(); 
+            if(id_recipe_product > 0 && recipe_cuantity > 0){
+                st.executeUpdate("UPDATE dm_recipe_product SET quantyti='"+recipe_cuantity+"' WHERE id='"+id_recipe_product+"' ");
+            }
+  
+        } catch (SQLException e) {
+        } finally {
+            mysqlConnect.disconnect();      
+        }  
     }
 
     private void load_products(){
@@ -130,6 +164,8 @@ public class recipeProducts extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -227,12 +263,21 @@ public class recipeProducts extends javax.swing.JPanel {
 
         jLabel1.setText("Produktas");
 
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel2.setText("Receptas");
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel3.setText("Pastaba");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -254,9 +299,14 @@ public class recipeProducts extends javax.swing.JPanel {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jLabel1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -319,6 +369,8 @@ public class recipeProducts extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

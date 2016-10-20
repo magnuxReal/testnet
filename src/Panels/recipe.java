@@ -269,8 +269,9 @@ public class recipe extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         int id = (int) model.getValueAt(index, 0);
         String name = (String) model.getValueAt(index, 1);
+        String note = (String) model.getValueAt(index, 2);
         
-        addNewPanel(new recipeProducts(id));
+        addNewPanel(new recipeProducts(id, name, note));
   
     }//GEN-LAST:event_jTable1MouseClicked
 
