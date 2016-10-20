@@ -43,6 +43,7 @@ public class Home extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
@@ -114,6 +115,15 @@ public class Home extends javax.swing.JFrame {
         jMenu3.setText("Gamyba");
         jMenu3.setToolTipText("");
         jMenu3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/journal.png"))); // NOI18N
+        jMenuItem8.setText("Gamybos žurnalas");
+        jMenuItem8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jMenuItem8MousePressed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem8);
 
         jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/warehouse.png"))); // NOI18N
         jMenuItem6.setText("Sandelis");
@@ -205,8 +215,12 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem6MousePressed
 
     private void jMenuItem7MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem7MousePressed
-        addNewPanel(new recipe());
+         addNewPanel(new recipe());
     }//GEN-LAST:event_jMenuItem7MousePressed
+
+    private void jMenuItem8MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem8MousePressed
+        addNewPanel(new magazine());
+    }//GEN-LAST:event_jMenuItem8MousePressed
 
     /**
      * @param args the command line arguments
@@ -265,6 +279,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelDefault;
     // End of variables declaration//GEN-END:variables
