@@ -91,7 +91,13 @@ public class Home extends javax.swing.JFrame {
         jPanelDefault.setName(""); // NOI18N
         jPanelDefault.setLayout(new java.awt.GridLayout(1, 0));
 
+        jMenuBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jMenuBar1.setDoubleBuffered(true);
+        jMenuBar1.setFocusCycleRoot(true);
+        jMenuBar1.setFocusTraversalPolicyProvider(true);
         jMenuBar1.setPreferredSize(new java.awt.Dimension(199, 32));
+        jMenuBar1.setRequestFocusEnabled(false);
+        jMenuBar1.setVerifyInputWhenFocusTarget(false);
 
         jMenu2.setText("Pagrindinis");
         jMenu2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N

@@ -42,7 +42,7 @@ public class recipeProducts extends javax.swing.JPanel {
         tcm3.getColumn(1).setPreferredWidth(120);
         tcm3.getColumn(2).setPreferredWidth(70);
         
-        jTable3.getColumnModel().getColumn(2).setCellRenderer(new EXhelper.DecimalFormatRenderer()); 
+        jTable3.getColumnModel().getColumn(2).setCellRenderer(new EXhelper.DecimalFormatRenderer4()); 
 
         jTable3.getModel().addTableModelListener(new TableModelListener() {
             

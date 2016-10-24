@@ -36,6 +36,24 @@ public class EXhelper {
       }
    }
     
+    public static class DecimalFormatRenderer4 extends DefaultTableCellRenderer {
+      private static final DecimalFormat formatter = new DecimalFormat( "0.0000" );
+ 
+      public Component getTableCellRendererComponent(
+         JTable table, Object value, boolean isSelected,
+         boolean hasFocus, int row, int column) {
+ 
+         // First format the cell value as required
+ 
+         value = formatter.format((Number)value);
+ 
+            // And pass it on to parent class
+ 
+         return super.getTableCellRendererComponent(
+            table, value, isSelected, hasFocus, row, column );
+      }
+   }
+    
     //generate update fields for mysql UPDATE function
     public static String uConstruct(Map<String, String> map){
  
