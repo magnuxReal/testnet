@@ -51,8 +51,11 @@ public class newMagazine extends javax.swing.JPanel {
         JLabel jLabel2 = new JLabel();
         JLabel jLabel3 = new JLabel();
         JTextField jTextField1 = new JTextField();
+        comboBox.setPreferredSize(new java.awt.Dimension(150, 30));
+        jTextField1.setPreferredSize(new java.awt.Dimension(150, 30));
+         
         JButton jButton1 = new JButton();
-
+        jButton1.setPreferredSize(new java.awt.Dimension(150, 30));
         jLabel2.setText("Receptas");
         jPanel1.add(jLabel2, gridBagConstraints);
         
@@ -170,6 +173,7 @@ public class newMagazine extends javax.swing.JPanel {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Gamybos žurnalas");
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -183,7 +187,7 @@ public class newMagazine extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(0, 0, 0)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
