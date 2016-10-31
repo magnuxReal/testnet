@@ -179,10 +179,12 @@ public class warehouseAddProduct extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
+
         Date data = (Date) jXDate.getDate();
         double balance = EXhelper.noComma(jTextField2.getText());
        
         if(balance > 0){
+            this.dispose();
             Product product = new Product(id_product);
             product.setDate(data);
             product.setBalance_left(balance);
@@ -193,8 +195,8 @@ public class warehouseAddProduct extends javax.swing.JFrame {
             product.save();
 
             warehouse.refresh(id_product);
-
-            this.dispose(); 
+            
+              
         }else{
             jTextField2.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
         }

@@ -7,7 +7,10 @@ package Panels;
 import Classes.EXhelper;
 import Models.Product;
 import Classes.WarehouseClass;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -58,11 +61,12 @@ public class warehouseProduct extends javax.swing.JPanel {
                 int id_p = (int) model.getValueAt(index, 5);
                 String note = (String) model.getValueAt(index, 4);
                 String invoice = (String) model.getValueAt(index, 1);
-                
                 Product product = new Product(id_p);
+    
                 product.setInvoice(invoice);
                 product.setNote(note);
-                product.update(); 
+                product.update();
+              
             
             }
           }

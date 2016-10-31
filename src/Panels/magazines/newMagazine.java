@@ -9,12 +9,15 @@ import Classes.Concept;
 import Classes.WarehouseClass;
 import Classes.WarehouseClass;
 import Main.MysqlConnect;
+import Models.Recipe;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.ResultSet;
@@ -42,17 +45,19 @@ import javax.swing.table.DefaultTableModel;
  */
 public class newMagazine extends javax.swing.JPanel {
     Concept[] arr = {};
+    final JComboBox<Concept> comboBox;
+    JTextField jTextField1;
     /**
      * Creates new form newMagazine
      */
     public newMagazine() {
         initComponents();
         recipes();
-        final JComboBox<Concept> comboBox = getComboBox();
+        comboBox = getComboBox();
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         JLabel jLabel2 = new JLabel();
         JLabel jLabel3 = new JLabel();
-        JTextField jTextField1 = new JTextField();
+        jTextField1 = new JTextField();
         comboBox.setPreferredSize(new java.awt.Dimension(150, 30));
         jTextField1.setPreferredSize(new java.awt.Dimension(150, 30));
          
@@ -82,14 +87,41 @@ public class newMagazine extends javax.swing.JPanel {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         jPanel1.add(jButton1, gridBagConstraints);
-        
+  /*      
         comboBox.addActionListener(actionEvent -> {
             final Object selectedItem = comboBox.getSelectedItem();
             if (selectedItem instanceof Concept)
                 System.out.println(((Concept) selectedItem).getValue());
         });
+*/
+        jButton1.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent ae) {
+               tryAddNewMagazine();
+            }
+        });
         
+    }
+    
+    private void tryAddNewMagazine(){
+        final Object selectedItem = comboBox.getSelectedItem();
+        double kg_need = Double.parseDouble(jTextField1.getText());
+        int id_recipe = Integer.valueOf(((Concept) selectedItem).getValue());
         
+        Recipe recip = new Recipe(id_recipe);
+        List<Recipe> result = recip.getRecipeProducts();
+        
+        for(Recipe rr : result) {
+            double need_total = 0;
+            
+            double balance_left = WarehouseClass.getBalance(rr.getIdProduct());
+            need_total = kg_need*rr.getQuantyti();
+            
+            if(need_total > balance_left){
+                System.out.println("Trukumas: "+need_total+" > "+balance_left);
+            }
+            
+             
+        }
     }
     
     private void recipes(){

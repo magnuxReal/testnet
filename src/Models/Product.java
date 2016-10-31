@@ -7,6 +7,7 @@ package Models;
 
 import Classes.EXhelper;
 import Main.MysqlConnect;
+import Panels.warehouseAddProduct;
 import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +19,8 @@ import static java.util.Collections.list;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -32,13 +35,28 @@ public class Product {
     String note;
     Date date;
     private MysqlConnect mysqlConnect = new MysqlConnect();
+    private Statement st; 
     
     public Product(int ids) {
-        id = ids;
+        
+            try {
+                this.st = mysqlConnect.connect().createStatement();
+                id = ids;
+            } catch (SQLException ex) {
+                 
+            }
+        
+  
     }
- 
-    public Product() {
 
+    public Product() {
+      
+            try {
+                this.st = mysqlConnect.connect().createStatement();
+        
+            } catch (SQLException ex) {
+                 
+            }  
     }
     
     public void setBalance(double string) {
@@ -91,8 +109,8 @@ public class Product {
     }
     
     public void update(){
-        try {
 
+            try {
             Map<String, String> arr = new HashMap<String, String>();
             
             //convert double to string
@@ -116,29 +134,25 @@ public class Product {
             
             //generate update fields in nonstructor class
             String listString = EXhelper.uConstruct(arr);
-      
-            Statement st = mysqlConnect.connect().createStatement();   
+     
             st.executeUpdate("UPDATE dm_balance_products SET "+listString+" where id='"+id+"'");
+            } catch (SQLException ex) {
+                 
+            }
+ 
 
-        } catch (SQLException e) {
-        } finally {
-            //mysqlConnect.disconnect();      
-        }
         
     }
 
     public void save() {
-
-        try {
-            Statement st = mysqlConnect.connect().createStatement(); 
- 
-            st.executeUpdate("INSERT INTO dm_balance_products (id_product,balance,balance_left,data,invoice,note) VALUES ('"+id+"', '"+balance+"', '"+balance_left+"', '"+new SimpleDateFormat("yyyy-MM-dd").format(date) +"', '"+invoice+"', '"+note+"')");
              
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            //mysqlConnect.disconnect();
-        }
+            try {
+                st.executeUpdate("INSERT INTO dm_balance_products (id_product,balance,balance_left,data,invoice,note) VALUES ('"+id+"', '"+balance+"', '"+balance_left+"', '"+new SimpleDateFormat("yyyy-MM-dd").format(date) +"', '"+invoice+"', '"+note+"')");
+        
+            } catch (SQLException ex) {
+                 
+            }  
+    
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package Panels;
 
+import Classes.DoublesCellEditor;
 import Classes.EXhelper;
 import Classes.WarehouseClass;
 import Main.MysqlConnect;
@@ -12,6 +13,9 @@ import Models.Product;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
+import javax.swing.BorderFactory;
+import javax.swing.JFormattedTextField;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -44,7 +48,12 @@ public class recipeProducts extends javax.swing.JPanel {
         tcm3.getColumn(2).setPreferredWidth(70);
         
         jTable3.getColumnModel().getColumn(2).setCellRenderer(new EXhelper.DecimalFormatRenderer4()); 
-
+        DecimalFormat df = new DecimalFormat ("0.0000");
+        JFormattedTextField fmtTxtField = new JFormattedTextField(df);
+        fmtTxtField.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jTable3.setDefaultEditor(Double.class, new DoublesCellEditor(fmtTxtField)); 
+        
+        
         jTable3.getModel().addTableModelListener(new TableModelListener() {
             
           public void tableChanged(TableModelEvent e) {
@@ -228,7 +237,7 @@ public class recipeProducts extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(jTable2);
 
-        jButton1.setText("Pridėti>>");
+        jButton1.setText("<<< Pridėti");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
@@ -247,7 +256,7 @@ public class recipeProducts extends javax.swing.JPanel {
                 java.lang.Integer.class, java.lang.String.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true
+                false, true, true
             };
 
             public Class getColumnClass(int columnIndex) {

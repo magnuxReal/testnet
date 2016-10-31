@@ -14,7 +14,7 @@ import java.awt.event.*;
  * @author Karolis
  */
 public class Home extends javax.swing.JFrame {
- 
+    warehouse warehousStat;
     /**
      * Creates new form Home
      */
@@ -22,6 +22,7 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         setTitle("Verslo valdymas");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon.png")));
+        this.warehousStat = new warehouse();
     }
 
     /**
@@ -219,7 +220,7 @@ public class Home extends javax.swing.JFrame {
 
     private void jMenuItem6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem6MousePressed
         pleaseWait();
-        addNewPanel(new warehouse());
+        addNewPanel(warehousStat);
     }//GEN-LAST:event_jMenuItem6MousePressed
 
     private void jMenuItem7MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem7MousePressed

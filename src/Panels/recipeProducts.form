@@ -117,7 +117,7 @@
     </Container>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Prid&#x117;ti&gt;&gt;"/>
+        <Property name="text" type="java.lang.String" value="&lt;&lt;&lt; Prid&#x117;ti"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton1MouseClicked"/>
@@ -135,7 +135,7 @@
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="3" rowCount="0">
                 <Column editable="false" title="ID" type="java.lang.Integer"/>
-                <Column editable="false" title="M&#x117;sa/Prieskonis" type="java.lang.String"/>
+                <Column editable="true" title="M&#x117;sa/Prieskonis" type="java.lang.String"/>
                 <Column editable="true" title="Kiekis" type="java.lang.Double"/>
               </Table>
             </Property>

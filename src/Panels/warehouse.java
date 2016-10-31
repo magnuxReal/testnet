@@ -5,6 +5,7 @@
  */
 package Panels;
 
+import Classes.DoublesCellEditor;
 import Classes.EXhelper;
 import Classes.WarehouseClass;
 import Main.MysqlConnect;
@@ -20,6 +21,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -60,7 +62,10 @@ public class warehouse extends javax.swing.JPanel {
         tcm2.getColumn(2).setPreferredWidth(100);
         
         jTable1.getColumnModel().getColumn(2).setCellRenderer(new EXhelper.DecimalFormatRenderer());         
-        jTable2.getColumnModel().getColumn(2).setCellRenderer(new EXhelper.DecimalFormatRenderer());  
+        jTable2.getColumnModel().getColumn(2).setCellRenderer(new EXhelper.DecimalFormatRenderer());
+
+ 
+        
         resetCombo();
         balance();
         reff = this;
@@ -238,11 +243,9 @@ public class warehouse extends javax.swing.JPanel {
                             .addComponent(jTextBalance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jComboBoxBalance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonBalance)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 626, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jButtonBalance))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 626, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

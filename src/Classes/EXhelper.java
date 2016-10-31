@@ -37,7 +37,7 @@ public class EXhelper {
    }
     
     public static class DecimalFormatRenderer4 extends DefaultTableCellRenderer {
-      private static final DecimalFormat formatter = new DecimalFormat( "0.0000" );
+      private static final DecimalFormat formatter = new DecimalFormat( "#0.0000" );
  
       public Component getTableCellRendererComponent(
          JTable table, Object value, boolean isSelected,

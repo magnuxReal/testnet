@@ -18,7 +18,7 @@ public class MysqlConnect {
     private static final String DATABASE_URL = "jdbc:mysql://dvaromesa.lt:3306/dvmesa_mesa?useUnicode=true&characterEncoding=UTF-8";
     private static final String USERNAME = "dvmesa_mesa";
     private static final String PASSWORD = "VilniuotasSusiruksmeti";
-    private static final String MAX_POOL = "250";
+    private static final String MAX_POOL = "350";
 
     // init connection object
     private Connection connection;
