@@ -26,11 +26,12 @@ import javax.swing.table.TableColumnModel;
  * @author Karolis
  */
 public class invNew extends javax.swing.JPanel {
-
+    private MysqlConnect mysqlConnect = new MysqlConnect();
     /**
      * Creates new form invNew
      */
     public invNew() {
+        
         initComponents();
         TableColumnModel tcm = jTable1.getColumnModel();
         tcm.getColumn(0).setPreferredWidth(40);    
@@ -210,7 +211,7 @@ public class invNew extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void AllSeries(){
-        MysqlConnect mysqlConnect = new MysqlConnect();
+
         try {
             Statement st = mysqlConnect.connect().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM  dm_invoice_serie");
@@ -229,7 +230,7 @@ public class invNew extends javax.swing.JPanel {
             
         } catch (SQLException e) {
         } finally {
-            mysqlConnect.disconnect();
+            //mysqlConnect.disconnect();
              
         }
     }

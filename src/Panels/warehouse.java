@@ -19,6 +19,8 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -34,13 +36,14 @@ import javax.swing.table.TableModel;
  */
 public class warehouse extends javax.swing.JPanel {
     private static JPanel  reff = null;
-
+    private MysqlConnect mysqlConnect = new MysqlConnect();
  
 
     /**
      * Creates new form warehouse
      */
     public warehouse() {
+        
         initComponents();
         
         TableColumnModel tcm = jTable1.getColumnModel();
@@ -270,8 +273,6 @@ public class warehouse extends javax.swing.JPanel {
         String[] split = val.split("-");
         int value = Integer.parseInt(split[1]);
 
-        MysqlConnect mysqlConnect = new MysqlConnect();
-
         try {
             Statement st = mysqlConnect.connect().createStatement();
             st.executeUpdate("INSERT INTO dm_balance (name,type) VALUES ('"+text+"', '"+value+"')");
@@ -281,7 +282,7 @@ public class warehouse extends javax.swing.JPanel {
 
         } catch (SQLException e) {
         } finally {
-            mysqlConnect.disconnect();
+            //mysqlConnect.disconnect();
         }
 
     }//GEN-LAST:event_jButtonBalanceActionPerformed
@@ -320,7 +321,7 @@ public class warehouse extends javax.swing.JPanel {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void balance(){
-        MysqlConnect mysqlConnect = new MysqlConnect();
+
         try {
             
            
@@ -358,7 +359,7 @@ public class warehouse extends javax.swing.JPanel {
         
         } catch (SQLException e) {
         } finally {
-            mysqlConnect.disconnect();
+            //mysqlConnect.disconnect();
              
         }
     }

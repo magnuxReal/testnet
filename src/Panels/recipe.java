@@ -41,6 +41,7 @@ public class recipe extends javax.swing.JPanel {
     private JTextField recipe_name = new JTextField(20);
     private JTextField recipe_note = new JTextField(20);
     private JButton save_recipe = new JButton("Išsaugoti");
+    private MysqlConnect mysqlConnect = new MysqlConnect();
     /**
      * Creates new form recipe
      */
@@ -55,7 +56,7 @@ public class recipe extends javax.swing.JPanel {
     }
     
     public void refreshTable(){
-        MysqlConnect mysqlConnect = new MysqlConnect();
+  
         try {
 
             Statement st = mysqlConnect.connect().createStatement();
@@ -80,7 +81,7 @@ public class recipe extends javax.swing.JPanel {
         
         } catch (SQLException e) {
         } finally {
-            mysqlConnect.disconnect();
+           // mysqlConnect.disconnect();
              
         }
     }
@@ -234,8 +235,6 @@ public class recipe extends javax.swing.JPanel {
                 String note = recipe_note.getText();
                 
                 if(name != null && !name.trim().isEmpty()){
-                    
-                MysqlConnect mysqlConnect = new MysqlConnect();
 
                 try {
                     Statement st = mysqlConnect.connect().createStatement(); 
@@ -244,7 +243,7 @@ public class recipe extends javax.swing.JPanel {
 
                 } catch (SQLException e) {
                 } finally {
-                    mysqlConnect.disconnect();
+                   // mysqlConnect.disconnect();
                     jPanelSide.removeAll();
                     jPanelSide.revalidate();
                     jPanelSide.repaint();

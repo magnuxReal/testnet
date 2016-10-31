@@ -31,6 +31,7 @@ public class Product {
     String invoice;
     String note;
     Date date;
+    private MysqlConnect mysqlConnect = new MysqlConnect();
     
     public Product(int ids) {
         id = ids;
@@ -90,8 +91,6 @@ public class Product {
     }
     
     public void update(){
-
-       MysqlConnect mysqlConnect = new MysqlConnect();
         try {
 
             Map<String, String> arr = new HashMap<String, String>();
@@ -123,13 +122,12 @@ public class Product {
 
         } catch (SQLException e) {
         } finally {
-            mysqlConnect.disconnect();      
+            //mysqlConnect.disconnect();      
         }
         
     }
 
     public void save() {
-        MysqlConnect mysqlConnect = new MysqlConnect();
 
         try {
             Statement st = mysqlConnect.connect().createStatement(); 
@@ -139,7 +137,7 @@ public class Product {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            mysqlConnect.disconnect();
+            //mysqlConnect.disconnect();
         }
     }
     

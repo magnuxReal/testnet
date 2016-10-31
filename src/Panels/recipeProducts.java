@@ -23,6 +23,7 @@ import javax.swing.table.TableColumnModel;
  */
 public class recipeProducts extends javax.swing.JPanel {
     private int id_recipe;
+    private MysqlConnect mysqlConnect = new MysqlConnect();
     /**
      * Creates new form recipeProducts
      */
@@ -66,8 +67,6 @@ public class recipeProducts extends javax.swing.JPanel {
     }
     
     private void updateRecipeProduct(int id_recipe_product, double recipe_cuantity){
-        MysqlConnect mysqlConnect = new MysqlConnect();
-
         try {
             Statement st = mysqlConnect.connect().createStatement(); 
             if(id_recipe_product > 0 && recipe_cuantity > 0){
@@ -76,12 +75,12 @@ public class recipeProducts extends javax.swing.JPanel {
   
         } catch (SQLException e) {
         } finally {
-            mysqlConnect.disconnect();      
+            //mysqlConnect.disconnect();      
         }  
     }
 
     private void load_products(){
-        MysqlConnect mysqlConnect = new MysqlConnect();
+        
         try {
             Statement st = mysqlConnect.connect().createStatement();
             Statement st2 = mysqlConnect.connect().createStatement();
@@ -143,7 +142,7 @@ public class recipeProducts extends javax.swing.JPanel {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            mysqlConnect.disconnect();
+            //mysqlConnect.disconnect();
              
         }
     }
@@ -349,7 +348,7 @@ public class recipeProducts extends javax.swing.JPanel {
         }  
         
         if(current_index > 0){
-            MysqlConnect mysqlConnect = new MysqlConnect();
+          
             try {
                 Statement st = mysqlConnect.connect().createStatement(); 
 
@@ -357,7 +356,7 @@ public class recipeProducts extends javax.swing.JPanel {
 
             } catch (SQLException e) {
             } finally {
-                mysqlConnect.disconnect();
+                //mysqlConnect.disconnect();
                 load_products();
                 jButton1.setVisible(false);
                 jLabel1.setVisible(false);

@@ -23,7 +23,7 @@ import Models.Product;
  * @author Karolis
  */
 public class WarehouseClass {
-    
+    private static MysqlConnect mysqlConnect = new MysqlConnect();
     /**
      *
      * @param id
@@ -31,8 +31,7 @@ public class WarehouseClass {
      */
     public static double getBalance(int id){
         double balance_left = 0;
-        
-        MysqlConnect mysqlConnect = new MysqlConnect();
+
         try {
             Statement st = mysqlConnect.connect().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM  dm_balance_products WHERE balance_left > 0 AND id_product ='"+id+"' ");
@@ -55,8 +54,7 @@ public class WarehouseClass {
     public static List<Product> getProduct(int id){
         
     List<Product> products = new ArrayList<>();
-        
-        MysqlConnect mysqlConnect = new MysqlConnect();
+
         try {
             Statement st = mysqlConnect.connect().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM  dm_balance_products WHERE id_product = '"+id+"'");

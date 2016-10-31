@@ -22,7 +22,7 @@ import java.awt.Color;
  * @author Karolis
  */
 public class invOptions extends javax.swing.JPanel {
-
+    private MysqlConnect mysqlConnect = new MysqlConnect();
     /**
      * Creates new form invOptions
      */
@@ -163,7 +163,7 @@ public class invOptions extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        MysqlConnect mysqlConnect = new MysqlConnect();
+       
         String newserie = jInvNewSerie.getText();
         String numformat = jInvNumFormat.getText();
         
@@ -189,7 +189,7 @@ public class invOptions extends javax.swing.JPanel {
             }
         } catch (SQLException e) {
         } finally {
-            mysqlConnect.disconnect();      
+            //mysqlConnect.disconnect();      
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -204,7 +204,7 @@ public class invOptions extends javax.swing.JPanel {
         String split2String = split2 + "";
         
 //check or exists
-        MysqlConnect mysqlConnect = new MysqlConnect();
+        
 
         try {
             Statement st = mysqlConnect.connect().createStatement(); 
@@ -226,7 +226,7 @@ public class invOptions extends javax.swing.JPanel {
             }
         } catch (SQLException e) {
         } finally {
-            mysqlConnect.disconnect();      
+            //mysqlConnect.disconnect();      
         }
         
         
@@ -266,7 +266,7 @@ public class invOptions extends javax.swing.JPanel {
     
     //get All invoice series and update list
     private void AllSeries(){
-        MysqlConnect mysqlConnect = new MysqlConnect();
+        
         try {
             Statement st = mysqlConnect.connect().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM  dm_invoice_serie");
@@ -286,7 +286,7 @@ public class invOptions extends javax.swing.JPanel {
             
         } catch (SQLException e) {
         } finally {
-            mysqlConnect.disconnect();
+            //mysqlConnect.disconnect();
              
         }
     }

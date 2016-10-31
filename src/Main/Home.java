@@ -199,12 +199,13 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem5MousePressed
-
+        pleaseWait();
         addNewPanel(new invOptions());
         //invp.setLayout(new GridLayout(0,1,0,3));
     }//GEN-LAST:event_jMenuItem5MousePressed
 
     private void jMenuItem4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem4MousePressed
+        pleaseWait();
         addNewPanel(new invNew());
     }//GEN-LAST:event_jMenuItem4MousePressed
 
@@ -217,14 +218,17 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2MousePressed
 
     private void jMenuItem6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem6MousePressed
+        pleaseWait();
         addNewPanel(new warehouse());
     }//GEN-LAST:event_jMenuItem6MousePressed
 
     private void jMenuItem7MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem7MousePressed
+         pleaseWait();
          addNewPanel(new recipe());
     }//GEN-LAST:event_jMenuItem7MousePressed
 
     private void jMenuItem8MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem8MousePressed
+        pleaseWait();
         addNewPanel(new magazine());
     }//GEN-LAST:event_jMenuItem8MousePressed
 
@@ -268,6 +272,14 @@ public class Home extends javax.swing.JFrame {
         jPanelDefault.revalidate();
         jPanelDefault.repaint();
         jPanelDefault.add(changeTo);        
+    }
+    
+    private void pleaseWait(){
+        JLabel lab1 = new JLabel("Prašome palaukti...", JLabel.LEFT);
+        jPanelDefault.removeAll();
+        jPanelDefault.revalidate();
+        jPanelDefault.repaint();
+        jPanelDefault.add(lab1); 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

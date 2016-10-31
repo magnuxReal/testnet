@@ -15,6 +15,8 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -39,7 +41,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Karolis
  */
 public class newMagazine extends javax.swing.JPanel {
-
+    Concept[] arr = {};
     /**
      * Creates new form newMagazine
      */
@@ -79,7 +81,14 @@ public class newMagazine extends javax.swing.JPanel {
  
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        jPanel1.add(jButton1, gridBagConstraints); 
+        jPanel1.add(jButton1, gridBagConstraints);
+        
+        comboBox.addActionListener(actionEvent -> {
+            final Object selectedItem = comboBox.getSelectedItem();
+            if (selectedItem instanceof Concept)
+                System.out.println(((Concept) selectedItem).getValue());
+        });
+        
         
     }
     
@@ -100,38 +109,40 @@ public class newMagazine extends javax.swing.JPanel {
         
         } catch (SQLException e) {
         } finally {
-            mysqlConnect.disconnect();
+            //mysqlConnect.disconnect();
              
         }
  
     }
-
-    private void launchGui() {
-        final JFrame frame = new JFrame("Stack Overflow: custom combo box renderer");
-        frame.setBounds(100, 100, 800, 600);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        final JComboBox<Concept> comboBox = getComboBox();
-        final JLabel label = new JLabel("Please make a selection...");
-
-        comboBox.addActionListener(actionEvent -> {
-            final Object selectedItem = comboBox.getSelectedItem();
-            if (selectedItem instanceof Concept)
-                label.setText(((Concept) selectedItem).getValue());
-        });
-
-        final JPanel panel = new JPanel(new BorderLayout());
-        panel.add(comboBox, BorderLayout.NORTH);
-        panel.add(label, BorderLayout.CENTER);
-        frame.getContentPane().add(panel);
-
-        frame.setVisible(true);
-    }
     
     private JComboBox<Concept> getComboBox() {
-        final List<Concept> concepts = Arrays.asList(new Concept("label 1", "value 1"),
-                                                     new Concept("label 2", "value 2"),
-                                                     new Concept("label 3", "value 3"));
+        
+        
+        
+        MysqlConnect mysqlConnect = new MysqlConnect();
+        try {         
+            Statement st = mysqlConnect.connect().createStatement();
+            ResultSet res = st.executeQuery("SELECT * FROM  dm_recipe ORDER BY id DESC");
+            int i = 0;
+            while (res.next()) {
+                String id = res.getString("id");
+                String name  = res.getString("name");
+                String note  = res.getString("note");
+          
+                add_element(new Concept(name, id));
+    
+                i++;
+              
+            }  
+        
+        } catch (SQLException e) {
+        } finally {
+            //mysqlConnect.disconnect();
+             
+        }
+         
+        
+        final List<Concept> concepts = Arrays.asList(arr);
 
         final JComboBox<Concept> comboBox = new JComboBox<>(new Vector<>(concepts));
          
@@ -153,6 +164,11 @@ public class newMagazine extends javax.swing.JPanel {
         
         return comboBox;
     }
+    
+    public void add_element(Concept element){
+        arr = Arrays.copyOf(arr, arr.length +1);
+        arr[arr.length - 1] = element;
+      }
 
     /**
      * This method is called from within the constructor to initialize the form.
