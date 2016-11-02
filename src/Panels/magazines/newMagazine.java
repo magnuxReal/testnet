@@ -34,6 +34,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
@@ -106,6 +107,9 @@ public class newMagazine extends javax.swing.JPanel {
         final Object selectedItem = comboBox.getSelectedItem();
         double kg_need = Double.parseDouble(jTextField1.getText());
         int id_recipe = Integer.valueOf(((Concept) selectedItem).getValue());
+        int i = 0;
+        String [] erorrs = new String[0];
+        String errorsString = "";
         
         Recipe recip = new Recipe(id_recipe);
         List<Recipe> result = recip.getRecipeProducts();
@@ -117,9 +121,21 @@ public class newMagazine extends javax.swing.JPanel {
             need_total = kg_need*rr.getQuantyti();
             
             if(need_total > balance_left){
-                System.out.println("Trukumas: "+need_total+" > "+balance_left);
+                i++;
+                erorrs = new String[i];
+                erorrs[i-1] = rr.getIdProduct()+"- Trukumas: "+need_total+" > "+balance_left+"";
+
+                 
             }
-            
+            System.out.println(erorrs.length);
+            if(erorrs.length > 0){
+                for(int e=0; e< erorrs.length; e++){
+                    errorsString = errorsString+" "+erorrs[e];     
+                }
+                
+                JOptionPane.showMessageDialog (null, errorsString, "Title", JOptionPane.INFORMATION_MESSAGE);
+                
+            }
              
         }
     }
