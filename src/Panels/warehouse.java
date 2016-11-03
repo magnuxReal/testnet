@@ -38,7 +38,7 @@ import javax.swing.table.TableModel;
  */
 public class warehouse extends javax.swing.JPanel {
     private static JPanel  reff = null;
-    private MysqlConnect mysqlConnect = new MysqlConnect();
+    
  
 
     /**
@@ -277,7 +277,7 @@ public class warehouse extends javax.swing.JPanel {
         int value = Integer.parseInt(split[1]);
 
         try {
-            Statement st = mysqlConnect.connect().createStatement();
+            Statement st = MysqlConnect.connect().createStatement();
             st.executeUpdate("INSERT INTO dm_balance (name,type) VALUES ('"+text+"', '"+value+"')");
             jTextBalance.setText(null);
             resetCombo();
@@ -328,7 +328,7 @@ public class warehouse extends javax.swing.JPanel {
         try {
             
            
-            Statement st = mysqlConnect.connect().createStatement();
+            Statement st = MysqlConnect.connect().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM  dm_balance");
             
             DefaultTableModel model1 = (DefaultTableModel) jTable1.getModel();

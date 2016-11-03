@@ -20,12 +20,12 @@ public class Recipe {
     int id;
     int id_product;
     double quantyti;
-    private final MysqlConnect mysqlConnect = new MysqlConnect();
+     
     private Statement st;   
     
     public Recipe(){
         try {
-            this.st = mysqlConnect.connect().createStatement();
+            this.st = MysqlConnect.connect().createStatement();
         } catch (SQLException ex) {
 
         }
@@ -33,7 +33,7 @@ public class Recipe {
     
     public Recipe(int ids){
         try {
-            this.st = mysqlConnect.connect().createStatement();
+            this.st = MysqlConnect.connect().createStatement();
             id = ids;
         } catch (SQLException ex) {
 
@@ -70,7 +70,7 @@ public class Recipe {
             }
             
         } catch (SQLException e) {
-            mysqlConnect.disconnect();
+            //MysqlConnect.disconnect();
         } 
        return r_products;
     }

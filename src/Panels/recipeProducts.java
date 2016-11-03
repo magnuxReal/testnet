@@ -27,7 +27,7 @@ import javax.swing.table.TableColumnModel;
  */
 public class recipeProducts extends javax.swing.JPanel {
     private int id_recipe;
-    private MysqlConnect mysqlConnect = new MysqlConnect();
+ 
     /**
      * Creates new form recipeProducts
      */
@@ -77,7 +77,7 @@ public class recipeProducts extends javax.swing.JPanel {
     
     private void updateRecipeProduct(int id_recipe_product, double recipe_cuantity){
         try {
-            Statement st = mysqlConnect.connect().createStatement(); 
+            Statement st = MysqlConnect.connect().createStatement(); 
             if(id_recipe_product > 0 && recipe_cuantity > 0){
                 st.executeUpdate("UPDATE dm_recipe_product SET quantyti='"+recipe_cuantity+"' WHERE id='"+id_recipe_product+"' ");
             }
@@ -91,8 +91,8 @@ public class recipeProducts extends javax.swing.JPanel {
     private void load_products(){
         
         try {
-            Statement st = mysqlConnect.connect().createStatement();
-            Statement st2 = mysqlConnect.connect().createStatement();
+            Statement st = MysqlConnect.connect().createStatement();
+            Statement st2 = MysqlConnect.connect().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM  dm_balance");
                         ResultSet res_recipe = st2.executeQuery("SELECT rp.id, rp.quantyti, rp.id_precipe, b.name "
                     + "FROM  dm_recipe_product AS rp "
@@ -151,7 +151,7 @@ public class recipeProducts extends javax.swing.JPanel {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            mysqlConnect.disconnect();
+           // MysqlConnect.disconnect();
              
         }
     }
@@ -359,7 +359,7 @@ public class recipeProducts extends javax.swing.JPanel {
         if(current_index > 0){
           
             try {
-                Statement st = mysqlConnect.connect().createStatement(); 
+                Statement st = MysqlConnect.connect().createStatement(); 
 
                 st.executeUpdate("INSERT INTO dm_recipe_product (id_precipe, id_product, quantyti) VALUES ('"+id_recipe+"', '"+current_index+"', 0)");
 

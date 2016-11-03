@@ -22,7 +22,7 @@ import java.awt.Color;
  * @author Karolis
  */
 public class invOptions extends javax.swing.JPanel {
-    private MysqlConnect mysqlConnect = new MysqlConnect();
+ 
     /**
      * Creates new form invOptions
      */
@@ -168,7 +168,7 @@ public class invOptions extends javax.swing.JPanel {
         String numformat = jInvNumFormat.getText();
         
         try {
-            Statement st = mysqlConnect.connect().createStatement(); 
+            Statement st = MysqlConnect.connect().createStatement(); 
             ResultSet res = st.executeQuery("SELECT * FROM  dm_invoice_serie WHERE serie LIKE '"+newserie+"'");
             if(newserie != null && numformat != null && !res.next()){            
                  
@@ -207,7 +207,7 @@ public class invOptions extends javax.swing.JPanel {
         
 
         try {
-            Statement st = mysqlConnect.connect().createStatement(); 
+            Statement st = MysqlConnect.connect().createStatement(); 
             ResultSet res = st.executeQuery("SELECT * FROM  dm_invoice_serie WHERE serie LIKE '"+split[0]+"'");
             if(res.next()){
                 jInvNewSerie.setEditable(false);
@@ -268,7 +268,7 @@ public class invOptions extends javax.swing.JPanel {
     private void AllSeries(){
         
         try {
-            Statement st = mysqlConnect.connect().createStatement();
+            Statement st = MysqlConnect.connect().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM  dm_invoice_serie");
             
             DefaultListModel <String> dlm = new DefaultListModel<>();

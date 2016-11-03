@@ -26,7 +26,7 @@ import javax.swing.table.TableColumnModel;
  * @author Karolis
  */
 public class invNew extends javax.swing.JPanel {
-    private MysqlConnect mysqlConnect = new MysqlConnect();
+    
     /**
      * Creates new form invNew
      */
@@ -213,7 +213,7 @@ public class invNew extends javax.swing.JPanel {
     private void AllSeries(){
 
         try {
-            Statement st = mysqlConnect.connect().createStatement();
+            Statement st = MysqlConnect.connect().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM  dm_invoice_serie");
             
           

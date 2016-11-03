@@ -142,9 +142,9 @@ public class newMagazine extends javax.swing.JPanel {
     
     private void recipes(){
  
-        MysqlConnect mysqlConnect = new MysqlConnect();
+        
         try {         
-            Statement st = mysqlConnect.connect().createStatement();
+            Statement st = MysqlConnect.connect().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM  dm_recipe");
 
             while (res.next()) {
@@ -157,7 +157,7 @@ public class newMagazine extends javax.swing.JPanel {
         
         } catch (SQLException e) {
         } finally {
-            mysqlConnect.disconnect();
+           // MysqlConnect.disconnect();
              
         }
  
@@ -167,9 +167,9 @@ public class newMagazine extends javax.swing.JPanel {
         
         
         
-        MysqlConnect mysqlConnect = new MysqlConnect();
+        
         try {         
-            Statement st = mysqlConnect.connect().createStatement();
+            Statement st = MysqlConnect.connect().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM  dm_recipe ORDER BY id DESC");
             int i = 0;
             while (res.next()) {
@@ -185,7 +185,7 @@ public class newMagazine extends javax.swing.JPanel {
         
         } catch (SQLException e) {
         } finally {
-            mysqlConnect.disconnect();
+            //MysqlConnect.disconnect();
              
         }
          

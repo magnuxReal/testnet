@@ -41,7 +41,7 @@ public class recipe extends javax.swing.JPanel {
     private JTextField recipe_name = new JTextField(20);
     private JTextField recipe_note = new JTextField(20);
     private JButton save_recipe = new JButton("Išsaugoti");
-    private MysqlConnect mysqlConnect = new MysqlConnect();
+ 
     /**
      * Creates new form recipe
      */
@@ -59,7 +59,7 @@ public class recipe extends javax.swing.JPanel {
   
         try {
 
-            Statement st = mysqlConnect.connect().createStatement();
+            Statement st = MysqlConnect.connect().createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM  dm_recipe");
             
             DefaultTableModel model1 = (DefaultTableModel) jTable1.getModel();
@@ -237,7 +237,7 @@ public class recipe extends javax.swing.JPanel {
                 if(name != null && !name.trim().isEmpty()){
 
                 try {
-                    Statement st = mysqlConnect.connect().createStatement(); 
+                    Statement st = MysqlConnect.connect().createStatement(); 
 
                     st.executeUpdate("INSERT INTO dm_recipe (name, note) VALUES ('"+name+"', '"+note+"')");
 

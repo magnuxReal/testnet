@@ -34,13 +34,13 @@ public class Product {
     String invoice;
     String note;
     Date date;
-    private MysqlConnect mysqlConnect = new MysqlConnect();
+    
     private Statement st; 
     
     public Product(int ids) {
         
             try {
-                this.st = mysqlConnect.connect().createStatement();
+                this.st = MysqlConnect.connect().createStatement();
                 id = ids;
             } catch (SQLException ex) {
                  
@@ -52,7 +52,7 @@ public class Product {
     public Product() {
       
             try {
-                this.st = mysqlConnect.connect().createStatement();
+                this.st = MysqlConnect.connect().createStatement();
         
             } catch (SQLException ex) {
                  

@@ -18,13 +18,13 @@ import java.util.List;
  */
 public class Magazine {
     int id;
-    private final MysqlConnect mysqlConnect = new MysqlConnect();
+    
     private Statement st;
   
 
     public Magazine(int ids) {
         try {
-            this.st = mysqlConnect.connect().createStatement();
+            this.st = MysqlConnect.connect().createStatement();
             id = ids;
         } catch (SQLException ex) {
 
@@ -33,7 +33,7 @@ public class Magazine {
 
     public Magazine() {
         try {
-            this.st = mysqlConnect.connect().createStatement();
+            this.st = MysqlConnect.connect().createStatement();
         } catch (SQLException ex) {
 
         }  

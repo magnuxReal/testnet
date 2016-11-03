@@ -13,28 +13,28 @@ import java.util.Properties;
  * @author Karolis
  */
 public class MysqlConnect {
-    
+    /*
     private static final String DATABASE_DRIVER = "com.mysql.jdbc.Driver";
     private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/dvmesa_mesa?useUnicode=true&characterEncoding=UTF-8";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "";
     private static final String MAX_POOL = "350"; 
-    /*
+    */ 
     private static final String DATABASE_DRIVER = "com.mysql.jdbc.Driver";
     private static final String DATABASE_URL = "jdbc:mysql://dvaromesa.lt:3306/dvmesa_mesa?useUnicode=true&characterEncoding=UTF-8";
     private static final String USERNAME = "dvmesa_mesa";
     private static final String PASSWORD = "VilniuotasSusiruksmeti";
     private static final String MAX_POOL = "350";
-*/
+ 
      
     
     // init connection object
-    private Connection connection;
+    private static Connection connection;
     // init properties object
-    private Properties properties;
+    private static Properties properties;
 
     // create properties
-    private Properties getProperties() {
+    private static Properties getProperties() {
         if (properties == null) {
             properties = new Properties();
             properties.setProperty("user", USERNAME);
@@ -45,24 +45,25 @@ public class MysqlConnect {
     }
 
     // connect database
-    public Connection connect() {
+    public static Connection connect() {
         if (connection == null) {
             try {
                 Class.forName(DATABASE_DRIVER);
                 connection = DriverManager.getConnection(DATABASE_URL, getProperties());
+                System.out.println("prisijungta");
             } catch (ClassNotFoundException | SQLException e) {
-                e.printStackTrace();
             }
         }
         return connection;
     }
 
     // disconnect database
-    public void disconnect() {
+    public static void disconnect() {
         if (connection != null) {
             try {
                 connection.close();
                 connection = null;
+                System.out.println("atsijungta");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
