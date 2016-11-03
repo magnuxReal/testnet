@@ -116,28 +116,28 @@ public class newMagazine extends javax.swing.JPanel {
         
         for(Recipe rr : result) {
             double need_total = 0;
+      
             
             double balance_left = WarehouseClass.getBalance(rr.getIdProduct());
             need_total = kg_need*rr.getQuantyti();
             
             if(need_total > balance_left){
-                i++;
-                erorrs = new String[i];
-                erorrs[i-1] = rr.getIdProduct()+"- Trukumas: "+need_total+" > "+balance_left+"";
+                erorrs = Arrays.copyOf(erorrs, erorrs.length +1);
+                erorrs[erorrs.length - 1] = rr.getIdProduct()+"- Trukumas: "+need_total+" > "+balance_left+"";
 
                  
             }
-            System.out.println(erorrs.length);
+        }
+        
             if(erorrs.length > 0){
                 for(int e=0; e< erorrs.length; e++){
-                    errorsString = errorsString+" "+erorrs[e];     
+                    errorsString = errorsString+"<br>"+erorrs[e]; 
+                    System.out.println(erorrs[e]);
                 }
-                
-                JOptionPane.showMessageDialog (null, errorsString, "Title", JOptionPane.INFORMATION_MESSAGE);
-                
-            }
-             
-        }
+            }     
+        
+        //JOptionPane.showMessageDialog (null, "<html>"+errorsString+"<html>", "Klaida", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
     private void recipes(){
@@ -157,7 +157,7 @@ public class newMagazine extends javax.swing.JPanel {
         
         } catch (SQLException e) {
         } finally {
-            //mysqlConnect.disconnect();
+            mysqlConnect.disconnect();
              
         }
  
@@ -185,7 +185,7 @@ public class newMagazine extends javax.swing.JPanel {
         
         } catch (SQLException e) {
         } finally {
-            //mysqlConnect.disconnect();
+            mysqlConnect.disconnect();
              
         }
          

@@ -151,7 +151,7 @@ public class recipeProducts extends javax.swing.JPanel {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            //mysqlConnect.disconnect();
+            mysqlConnect.disconnect();
              
         }
     }

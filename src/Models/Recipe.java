@@ -70,6 +70,7 @@ public class Recipe {
             }
             
         } catch (SQLException e) {
+            mysqlConnect.disconnect();
         } 
        return r_products;
     }
