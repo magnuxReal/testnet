@@ -61,7 +61,7 @@ public class EXhelper {
         
        for(String key: map.keySet()){
            if(map.get(key) != null && !map.get(key).equals("0.0")){
-               System.out.println(""+key+"='"+map.get(key)+"'");
+               
                 sqlList.add(""+key+"='"+map.get(key)+"'");
            }
        }
