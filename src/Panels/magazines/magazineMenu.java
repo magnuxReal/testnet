@@ -49,6 +49,8 @@ public class magazineMenu extends javax.swing.JPanel {
         
         JMenu menu = new JMenu("Visi gamybos žurnalai");
         JMenu menu2 = new JMenu("Naujas gamybos žurnalas");
+        menu.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        menu2.setFont(new java.awt.Font("Segoe UI", 0, 14));
         
         menuBar.add(menu);
         menuBar.add(menu2);

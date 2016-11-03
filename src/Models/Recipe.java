@@ -20,6 +20,7 @@ public class Recipe {
     int id;
     int id_product;
     double quantyti;
+    String product_name;
      
     private Statement st;   
     
@@ -55,17 +56,28 @@ public class Recipe {
     public double getQuantyti() {
         return quantyti; 
     }  
-     
+
+    public void setProductName(String p_name) {
+        product_name = p_name; 
+    }
+    
+    public String getProductName() {
+        return product_name; 
+    } 
+    
     public List<Recipe> getRecipeProducts(){
         
     List<Recipe> r_products = new ArrayList<>();
 
         try {
-            ResultSet res = st.executeQuery("SELECT * FROM  dm_recipe_product WHERE id_precipe = '"+id+"'");
+            ResultSet res = st.executeQuery("SELECT * FROM  dm_recipe_product AS rp "
+                    + "LEFT JOIN dm_balance AS b ON (b.id=rp.id_product) "
+                    + "WHERE rp.id_precipe = '"+id+"' ");
             while(res.next()) {
             Recipe r_product = new Recipe();
             r_product.setIdProduct(res.getInt("id_product"));
             r_product.setQuantyti(res.getDouble("quantyti"));
+            r_product.setProductName(res.getString("name"));
             r_products.add(r_product);
             }
             

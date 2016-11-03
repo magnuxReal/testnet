@@ -6,6 +6,7 @@
 package Panels.magazines;
  
 import Classes.Concept;
+import Classes.EXhelper;
 import Classes.WarehouseClass;
 import Classes.WarehouseClass;
 import Main.MysqlConnect;
@@ -20,9 +21,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -119,25 +124,74 @@ public class newMagazine extends javax.swing.JPanel {
       
             
             double balance_left = WarehouseClass.getBalance(rr.getIdProduct());
-            need_total = kg_need*rr.getQuantyti();
-            
+            need_total = EXhelper.round((kg_need*rr.getQuantyti()), 3);
+  
             if(need_total > balance_left){
                 erorrs = Arrays.copyOf(erorrs, erorrs.length +1);
-                erorrs[erorrs.length - 1] = rr.getIdProduct()+"- Trukumas: "+need_total+" > "+balance_left+"";
+                erorrs[erorrs.length - 1] = rr.getProductName()+" trukumas: "+EXhelper.round((need_total-balance_left), 3)+"";
 
-                 
             }
         }
         
             if(erorrs.length > 0){
+                
                 for(int e=0; e< erorrs.length; e++){
                     errorsString = errorsString+"<br>"+erorrs[e]; 
-                    System.out.println(erorrs[e]);
                 }
-            }     
-        
-        //JOptionPane.showMessageDialog (null, "<html>"+errorsString+"<html>", "Klaida", JOptionPane.INFORMATION_MESSAGE);
-        
+               
+                JOptionPane.showMessageDialog (null, "<html>"+errorsString+"<html>", "Klaida", JOptionPane.INFORMATION_MESSAGE);
+                
+            }else{
+                //if have all needed products
+                //create row in databse
+                try{
+                    
+                
+                    
+                Statement st = MysqlConnect.connect().createStatement(); 
+                Statement st2 = MysqlConnect.connect().createStatement();
+                st.executeUpdate("INSERT INTO dm_magazine (id_recipe,kg,date) VALUES ('"+id_recipe+"', '"+kg_need+"', '"+LocalDate.now()+"')", Statement.RETURN_GENERATED_KEYS);
+                ResultSet rs = st.getGeneratedKeys();
+                int last_id = 0;
+                if (rs.next()) {
+                    last_id = rs.getInt(1);
+                }
+
+                for(Recipe rr : result) {
+                    double need_total = 0;
+                    int need_more = 1;
+
+                    double balance_left = WarehouseClass.getBalance(rr.getIdProduct());
+                    need_total = EXhelper.round((kg_need*rr.getQuantyti()), 3);
+                    ResultSet res = st2.executeQuery("SELECT * FROM  dm_balance_products WHERE balance_left > 0 AND id_product ='"+rr.getIdProduct()+"' ORDER BY data ASC");
+
+                    while (res.next()) {
+                        if(need_more == 1){
+                            balance_left = res.getDouble("balance_left");
+                            int id_balance_product = res.getInt("id");
+                            String invoice = res.getString("invoice");
+                            
+                            if(balance_left > need_total){
+                                need_more = 0;
+                                st.executeUpdate("INSERT INTO dm_magazine_products (id_magazine,id_product,id_balance_product,quantyti,invoice) VALUES ('"+last_id+"', '"+rr.getIdProduct()+"', '"+id_balance_product+"', '"+need_total+"', '"+invoice+"')");
+                                st.executeUpdate("UPDATE dm_balance_products SET balance_left='"+(balance_left-need_total)+"' where id='"+id_balance_product+"'");  
+                            }else{
+ 
+                                st.executeUpdate("INSERT INTO dm_magazine_products (id_magazine,id_product,id_balance_product,quantyti,invoice) VALUES ('"+last_id+"', '"+rr.getIdProduct()+"', '"+id_balance_product+"', '"+balance_left+"', '"+invoice+"')");
+                                st.executeUpdate("UPDATE dm_balance_products SET balance_left='0' where id='"+id_balance_product+"'");     
+                            
+                                need_total = need_total-balance_left;
+                            }
+   
+                        }
+                    }     
+                    
+                    
+                }
+                } catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }       
     }
     
     private void recipes(){

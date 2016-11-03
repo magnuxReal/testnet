@@ -15,7 +15,7 @@ import java.io.IOException;
  * @author Karolis
  */
 public class Home extends javax.swing.JFrame {
-    warehouse warehousStat;
+ 
     /**
      * Creates new form Home
      */
@@ -23,7 +23,7 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         setTitle("Verslo valdymas");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon.png")));
-        this.warehousStat = new warehouse();
+      
         
         addWindowListener(new WindowAdapter() {
          public void windowClosing(WindowEvent e) {
@@ -111,8 +111,9 @@ public class Home extends javax.swing.JFrame {
         jMenuBar1.setVerifyInputWhenFocusTarget(false);
 
         jMenu2.setText("Pagrindinis");
-        jMenu2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenu2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/close.png"))); // NOI18N
         jMenuItem2.setText("Uždaryti");
         jMenuItem2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -131,9 +132,9 @@ public class Home extends javax.swing.JFrame {
 
         jMenu3.setText("Gamyba");
         jMenu3.setToolTipText("");
-        jMenu3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenu3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
-        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/journal.png"))); // NOI18N
+        jMenuItem8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jMenuItem8.setText("Gamybos žurnalas");
         jMenuItem8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -142,7 +143,7 @@ public class Home extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem8);
 
-        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/warehouse.png"))); // NOI18N
+        jMenuItem6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jMenuItem6.setText("Sandelis");
         jMenuItem6.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -151,7 +152,7 @@ public class Home extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem6);
 
-        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/recept.png"))); // NOI18N
+        jMenuItem7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jMenuItem7.setText("Receptai");
         jMenuItem7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -163,13 +164,13 @@ public class Home extends javax.swing.JFrame {
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Sąskaitos");
-        jMenu4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenu4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
-        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/doc.png"))); // NOI18N
+        jMenuItem3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jMenuItem3.setText("Išrašytos");
         jMenu4.add(jMenuItem3);
 
-        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit.png"))); // NOI18N
+        jMenuItem4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jMenuItem4.setText("Nauja sąskaita");
         jMenuItem4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -178,7 +179,7 @@ public class Home extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem4);
 
-        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/options.png"))); // NOI18N
+        jMenuItem5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jMenuItem5.setText("Nustatymai");
         jMenuItem5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -231,7 +232,7 @@ public class Home extends javax.swing.JFrame {
 
     private void jMenuItem6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem6MousePressed
         pleaseWait();
-        addNewPanel(warehousStat);
+        addNewPanel(new warehouse());
     }//GEN-LAST:event_jMenuItem6MousePressed
 
     private void jMenuItem7MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem7MousePressed

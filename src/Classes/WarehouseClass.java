@@ -65,7 +65,7 @@ public class WarehouseClass {
 
         try {
         
-            ResultSet res = st.executeQuery("SELECT * FROM  dm_balance_products WHERE id_product = '"+id+"'");
+            ResultSet res = st.executeQuery("SELECT * FROM  dm_balance_products WHERE id_product = '"+id+"' ORDER BY data DESC");
             while(res.next()) {
             Product product = new Product();
             product.setID(res.getInt("id"));
