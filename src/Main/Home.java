@@ -9,6 +9,7 @@ import Panels.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 /**
  *
  * @author Karolis
@@ -23,6 +24,15 @@ public class Home extends javax.swing.JFrame {
         setTitle("Verslo valdymas");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon.png")));
         this.warehousStat = new warehouse();
+        
+        addWindowListener(new WindowAdapter() {
+         public void windowClosing(WindowEvent e) {
+             
+             MysqlConnect.disconnect();
+             
+         }
+       });
+        
     }
 
     /**
@@ -215,6 +225,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem2MousePressed
+        MysqlConnect.disconnect();
         System.exit(0);
     }//GEN-LAST:event_jMenuItem2MousePressed
 

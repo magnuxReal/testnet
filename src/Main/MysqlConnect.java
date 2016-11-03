@@ -50,7 +50,6 @@ public class MysqlConnect {
             try {
                 Class.forName(DATABASE_DRIVER);
                 connection = DriverManager.getConnection(DATABASE_URL, getProperties());
-                System.out.println("prisijungta");
             } catch (ClassNotFoundException | SQLException e) {
             }
         }
@@ -63,7 +62,6 @@ public class MysqlConnect {
             try {
                 connection.close();
                 connection = null;
-                System.out.println("atsijungta");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
