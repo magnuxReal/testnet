@@ -6,6 +6,7 @@
 package Panels.magazines;
 
 import Classes.Concept;
+import Classes.EXhelper;
 import Main.MysqlConnect;
 import java.awt.Component;
 import java.sql.ResultSet;
@@ -22,6 +23,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -38,6 +40,12 @@ public class allMagazines extends javax.swing.JPanel {
         initComponents();
         loadMagazines(0);
         renderFilter();
+        
+        TableColumnModel tcm = jTable1.getColumnModel();
+
+ 
+        tcm.getColumn(3).setCellRenderer(new EXhelper.DecimalFormatRenderer()); 
+        
         comboBox.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(final JList<?> list,
@@ -107,7 +115,7 @@ public class allMagazines extends javax.swing.JPanel {
                         model.removeRow(0);
                 }
                 while(res.next()) {
-                    Object[] row = {res.getString("date"), 0, res.getDouble("kg"), 0};
+                    Object[] row = {res.getString("date"), 0, res.getString("name"), res.getDouble("kg"), 0};
                     model.addRow(row);
                 }
                 
@@ -144,14 +152,14 @@ public class allMagazines extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Data", "Numeris", "Receptas", "Busena"
+                "Data", "Numeris", "Receptas", "Kiekis (Kg)", "Busena"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
