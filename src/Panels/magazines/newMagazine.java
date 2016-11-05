@@ -11,6 +11,7 @@ import Classes.WarehouseClass;
 import Classes.WarehouseClass;
 import Main.MysqlConnect;
 import Models.Recipe;
+import Panels.magazine;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -53,6 +54,8 @@ public class newMagazine extends javax.swing.JPanel {
     Concept[] arr = {};
     final JComboBox<Concept> comboBox;
     JTextField jTextField1;
+    private JButton jButton1 = new JButton();
+     
     /**
      * Creates new form newMagazine
      */
@@ -67,7 +70,7 @@ public class newMagazine extends javax.swing.JPanel {
         comboBox.setPreferredSize(new java.awt.Dimension(150, 30));
         jTextField1.setPreferredSize(new java.awt.Dimension(150, 30));
          
-        JButton jButton1 = new JButton();
+ 
         jButton1.setPreferredSize(new java.awt.Dimension(150, 30));
         jLabel2.setText("Receptas");
         jPanel1.add(jLabel2, gridBagConstraints);
@@ -89,7 +92,7 @@ public class newMagazine extends javax.swing.JPanel {
         jPanel1.add(jTextField1, gridBagConstraints);
         
         jButton1.setText("Sukurti");
- 
+        jButton1.setEnabled(true);
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         jPanel1.add(jButton1, gridBagConstraints);
@@ -109,16 +112,30 @@ public class newMagazine extends javax.swing.JPanel {
     }
     
     private void tryAddNewMagazine(){
+        
+        jButton1.setText("Prašome palaukti...");
+        jButton1.setEnabled(false);
+        
         final Object selectedItem = comboBox.getSelectedItem();
         double kg_need = Double.parseDouble(jTextField1.getText());
         int id_recipe = Integer.valueOf(((Concept) selectedItem).getValue());
         int i = 0;
+        int p = 0;
         String [] erorrs = new String[0];
         String errorsString = "";
         
         Recipe recip = new Recipe(id_recipe);
         List<Recipe> result = recip.getRecipeProducts();
+        int recipeItemCount = result.size();
         
+        
+        if(recipeItemCount == 0){
+                JOptionPane.showMessageDialog (null, "<html>Receptas neturi produktų.<html>", "Klaida", JOptionPane.INFORMATION_MESSAGE);
+                jButton1.setText("Sukurti");
+                jButton1.setEnabled(true);
+        }
+        
+ 
         for(Recipe rr : result) {
             double need_total = 0;
       
@@ -140,6 +157,8 @@ public class newMagazine extends javax.swing.JPanel {
                 }
                
                 JOptionPane.showMessageDialog (null, "<html>"+errorsString+"<html>", "Klaida", JOptionPane.INFORMATION_MESSAGE);
+                jButton1.setText("Sukurti");
+                jButton1.setEnabled(true);
                 
             }else{
                 //if have all needed products
@@ -158,6 +177,7 @@ public class newMagazine extends javax.swing.JPanel {
                 }
 
                 for(Recipe rr : result) {
+                    p++;
                     double need_total = 0;
                     int need_more = 1;
 
@@ -186,6 +206,10 @@ public class newMagazine extends javax.swing.JPanel {
                         }
                     }     
                     
+                    if(p == recipeItemCount){
+                        //if done load magazine tab
+                        magazine.refresh(0, last_id);
+                    }
                     
                 }
                 } catch (SQLException e){

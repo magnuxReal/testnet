@@ -6,6 +6,7 @@
 package Panels;
 
 import Panels.magazines.allMagazines;
+import Panels.magazines.loadMagazine;
 import Panels.magazines.magazineMenu;
 import Panels.magazines.newMagazine;
 import javax.swing.JPanel;
@@ -37,6 +38,11 @@ public class magazine extends javax.swing.JPanel {
         jPanel2.add(changeTo);        
     }
     
+    /**
+     *
+     * @param id_get
+     * @param id_magazine
+     */
     public static void refresh(int id_get){
         magazine ok = (magazine) reff;
         switch (id_get) {
@@ -44,10 +50,16 @@ public class magazine extends javax.swing.JPanel {
             break;
             case 2:  ok.addNewPanel(new newMagazine());
             break;
+            case 3:  ok.addNewPanel(new loadMagazine(0));
+            break;
         }
          
     }
-    
+
+    public static void refresh(int id_get, int id_magazine){
+        magazine ok = (magazine) reff;
+        ok.addNewPanel(new loadMagazine(id_magazine));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

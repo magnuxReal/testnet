@@ -66,6 +66,8 @@ public class warehouseAddProduct extends javax.swing.JFrame {
         jTextField1.setText("");
         jTextField2.setText("0");
         jTextField3.setText("");
+        jButton1.setText("Pridėti");
+        jButton1.setEnabled(true);
         jTextField2.setBorder(BorderFactory.createSoftBevelBorder(1, Color.gray, Color.gray));
         jLabelname.setText(name);
         id_product = id;
@@ -179,7 +181,8 @@ public class warehouseAddProduct extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
-
+        jButton1.setText("Prašome palaukti..");
+        jButton1.setEnabled(false);
         Date data = (Date) jXDate.getDate();
         double balance = EXhelper.noComma(jTextField2.getText());
        
@@ -199,6 +202,8 @@ public class warehouseAddProduct extends javax.swing.JFrame {
               
         }else{
             jTextField2.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+            jButton1.setText("Pridėti");
+            jButton1.setEnabled(true);
         }
     }//GEN-LAST:event_jButton1MousePressed
 
