@@ -11,11 +11,13 @@ import java.awt.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JList;
@@ -35,19 +37,75 @@ public class allMagazines extends javax.swing.JPanel {
      
         initComponents();
         loadMagazines(0);
-      
+        renderFilter();
+        comboBox.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(final JList<?> list,
+                                                          final Object value,
+                                                          final int index,
+                                                          final boolean isSelected,
+                                                          final boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected,
+                                                   cellHasFocus);
+                if (value instanceof Concept)
+                    setText(((Concept) value).getLabel());
+
+                return this;
+            }
+        });
+        
+        comboBox.addActionListener(actionEvent -> {
+            final Object selectedItem = comboBox.getSelectedItem();
+            if (selectedItem instanceof Concept){
+                int id_recipe = Integer.valueOf(((Concept) selectedItem).getValue());
+               loadMagazines(id_recipe);
+            }
+        });
+        
+        
     }
     
-    public void loadMagazines(int filter){
+    private void renderFilter(){
+        comboBox.addItem(new Concept("--Rodomi visi receptai--", "0"));
+        try {         
+            Statement st = MysqlConnect.connect().createStatement();
+            ResultSet res = st.executeQuery("SELECT * FROM  dm_recipe ORDER BY id DESC");
+            int i = 0;
+            while (res.next()) {
+                String id = res.getString("id");
+                String name  = res.getString("name");
+                String note  = res.getString("note");
+          
+                comboBox.addItem(new Concept(name, id));
+              
+            }  
+        
+        } catch (SQLException e) {
+        } finally {
+            //MysqlConnect.disconnect();
+             
+        }            
+         
+    }
+    
+    public void loadMagazines(int id_recipe){
             Statement st;
+            String whereSQL = "";
             try {
                 st = MysqlConnect.connect().createStatement();
                 
                 DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                ResultSet res = st.executeQuery("SELECT * FROM  dm_magazine AS m "
-                        + "LEFT JOIN dm_recipe AS r ON (r.id=m.id_recipe) "
-                        + "ORDER BY m.id ASC");
                 
+                if(id_recipe > 0){
+                       whereSQL = " WHERE  m.id_recipe = '"+id_recipe+"' ";
+                }
+                    ResultSet res = st.executeQuery("SELECT * FROM  dm_magazine AS m "
+                            + "LEFT JOIN dm_recipe AS r ON (r.id=m.id_recipe) "
+                            + whereSQL + "ORDER BY m.id ASC");
+                 
+                while (model.getRowCount() > 0) {
+                        model.removeRow(0);
+                }
                 while(res.next()) {
                     Object[] row = {res.getString("date"), 0, res.getDouble("kg"), 0};
                     model.addRow(row);
