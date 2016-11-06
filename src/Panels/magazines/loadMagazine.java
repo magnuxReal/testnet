@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 import org.jdesktop.swingx.table.DatePickerCellEditor;
  
 
@@ -41,12 +42,15 @@ public class loadMagazine extends javax.swing.JPanel {
         tcm.getColumn(3).setPreferredWidth(100);
     
         jTable1.getColumnModel().getColumn(2).setCellRenderer(new EXhelper.DecimalFormatRenderer());
-
+       // jTable3.getColumnModel().getColumn(3).setCellRenderer(new DateRenderer());
         
                
         DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
-
-       jTable3.getColumnModel().getColumn(2).setCellEditor(new DatePickerCellEditor());
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DatePickerCellEditor datetime = new DatePickerCellEditor(format);
+        //DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+       // datetime.setFormats(dateFormat);
+       jTable3.getColumnModel().getColumn(2).setCellEditor(datetime);
 
         Object[] row = {"Susimas, marinavimas/ Farso maisymas", "", ""};
         model.addRow(row);
