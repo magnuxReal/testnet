@@ -8,7 +8,10 @@ package Panels.magazines;
 import Classes.Concept;
 import Classes.EXhelper;
 import Main.MysqlConnect;
+import Panels.magazine;
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -44,7 +47,7 @@ public class allMagazines extends javax.swing.JPanel {
         TableColumnModel tcm = jTable1.getColumnModel();
 
  
-        tcm.getColumn(3).setCellRenderer(new EXhelper.DecimalFormatRenderer()); 
+        tcm.getColumn(4).setCellRenderer(new EXhelper.DecimalFormatRenderer()); 
         
         comboBox.setRenderer(new DefaultListCellRenderer() {
             @Override
@@ -69,7 +72,23 @@ public class allMagazines extends javax.swing.JPanel {
                loadMagazines(id_recipe);
             }
         });
-        
+
+    jTable1.addMouseListener(new MouseAdapter() {
+
+            public void mouseClicked (MouseEvent me) {
+                if (me.getClickCount() == 2) {
+                    int index  = jTable1.getSelectedRow();
+
+                    if(index != -1){
+                        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                        int id_magazine = (int) model.getValueAt(index, 0);
+                        magazine.refresh(0, id_magazine);
+              
+                    }
+                }
+            }
+        });    
+    
         
     }
     
@@ -115,7 +134,7 @@ public class allMagazines extends javax.swing.JPanel {
                         model.removeRow(0);
                 }
                 while(res.next()) {
-                    Object[] row = {res.getString("date"), 0, res.getString("name"), res.getDouble("kg"), 0};
+                    Object[] row = {res.getInt("id"), res.getString("date"), 0, res.getString("name"), res.getDouble("kg"), 0};
                     model.addRow(row);
                 }
                 
@@ -152,14 +171,14 @@ public class allMagazines extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Data", "Numeris", "Receptas", "Kiekis (Kg)", "Busena"
+                "#ID", "Data", "Numeris", "Receptas", "Kiekis (Kg)", "Busena"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

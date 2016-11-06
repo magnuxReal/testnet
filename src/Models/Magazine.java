@@ -23,6 +23,8 @@ public class Magazine {
     private double quantyti;
     private String product_name;
     private String invoice;
+    private String date;
+    private String recipe_name;
     
     public Magazine() {
   
@@ -32,6 +34,15 @@ public class Magazine {
         try {
             this.st = MysqlConnect.connect().createStatement();
             id = ids;
+            
+            ResultSet res = st.executeQuery("SELECT * FROM  dm_magazine AS m "
+                    + "LEFT JOIN dm_recipe AS r ON (r.id=m.id_recipe) "
+                    + "WHERE m.id = '"+id+"'");
+            while(res.next()) {
+                date = res.getString("date");
+                recipe_name = res.getString("name");
+            }
+            
         } catch (SQLException ex) {
 
         }
@@ -61,6 +72,22 @@ public class Magazine {
         return product_name; 
     } 
 
+    public void setRecipeName(String r_name) {
+        recipe_name = r_name; 
+    }
+    
+    public String getRecipeName() {
+        return recipe_name; 
+    } 
+    
+    public void setDate(String p_date) {
+        date = p_date; 
+    }
+    
+    public String getDate() {
+        return date; 
+    } 
+    
     public void setInvoice(String g_invoice) {
         invoice = g_invoice; 
     }
@@ -76,7 +103,7 @@ public class Magazine {
         try {
             ResultSet res = st.executeQuery("SELECT * FROM  dm_magazine_products AS mp "
                     + "LEFT JOIN dm_balance AS b ON (b.id=mp.id_product) "
-                    + "WHERE mp.id_magazine = '"+id+"' GROUP BY mp.id_product");
+                    + "WHERE mp.id_magazine = '"+id+"'");
             while(res.next()) {
                 Magazine r_product = new Magazine();
                 r_product.setIdProduct(res.getInt("id_product"));
