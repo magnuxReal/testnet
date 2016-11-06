@@ -5,13 +5,23 @@
  */
 package Panels.magazines;
 
+ 
 import Classes.EXhelper;
 import Models.Magazine;
+ 
+ 
+import java.awt.Component;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 import org.jdesktop.swingx.table.DatePickerCellEditor;
@@ -27,6 +37,7 @@ public class loadMagazine extends javax.swing.JPanel {
      * Creates new form loadMagazine
      */
     public loadMagazine(int id) {
+ 
         initComponents();
         id_magazine = id;
         loadProducts();
@@ -42,11 +53,28 @@ public class loadMagazine extends javax.swing.JPanel {
         tcm.getColumn(3).setPreferredWidth(100);
     
         jTable1.getColumnModel().getColumn(2).setCellRenderer(new EXhelper.DecimalFormatRenderer());
-       // jTable3.getColumnModel().getColumn(3).setCellRenderer(new DateRenderer());
+        
+        TableCellRenderer tableCellRenderer = new DefaultTableCellRenderer() {
+
+            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+            public Component getTableCellRendererComponent(JTable table,
+                    Object value, boolean isSelected, boolean hasFocus,
+                    int row, int column) {
+                if( value instanceof Date) {
+                    value = f.format(value);
+                }
+                return super.getTableCellRendererComponent(table, value, isSelected,
+                        hasFocus, row, column);
+            }
+        };
+          
+        
+        jTable3.getColumnModel().getColumn(2).setCellRenderer(tableCellRenderer);
         
                
         DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         DatePickerCellEditor datetime = new DatePickerCellEditor(format);
         //DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
        // datetime.setFormats(dateFormat);
@@ -56,6 +84,9 @@ public class loadMagazine extends javax.swing.JPanel {
         model.addRow(row);
         
     }
+    
+ 
+    
     
     private void loadProducts(){
         Magazine products = new Magazine(id_magazine);
@@ -202,8 +233,10 @@ public class loadMagazine extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jScrollPane3)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,7 +246,7 @@ public class loadMagazine extends javax.swing.JPanel {
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(113, 113, 113))
+                .addGap(145, 145, 145))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
