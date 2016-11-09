@@ -23,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 /**
  *
+ * //
  * @author Karolis
  */
 public class invNew extends javax.swing.JPanel {
