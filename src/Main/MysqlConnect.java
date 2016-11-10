@@ -21,7 +21,7 @@ public class MysqlConnect {
     private static final String MAX_POOL = "350"; 
     */ 
     private static final String DATABASE_DRIVER = "com.mysql.jdbc.Driver";
-    private static final String DATABASE_URL = "jdbc:mysql://dvaromesa.lt:3306/dvmesa_mesa?useUnicode=true&characterEncoding=UTF-8";
+    private static final String DATABASE_URL = "jdbc:mysql://194.135.87.84:3306/dvmesa_mesa?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&maxReconnects=10";
     private static final String USERNAME = "dvmesa_mesa";
     private static final String PASSWORD = "VilniuotasSusiruksmeti";
     private static final String MAX_POOL = "350";

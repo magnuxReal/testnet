@@ -7,18 +7,27 @@ package Panels.magazines;
 
  
 import Classes.EXhelper;
+import Main.MysqlConnect;
 import Models.Magazine;
  
  
 import java.awt.Component;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -51,12 +60,14 @@ public class loadMagazine extends javax.swing.JPanel {
         tcm.getColumn(1).setPreferredWidth(200);
         tcm.getColumn(2).setPreferredWidth(150);
         tcm.getColumn(3).setPreferredWidth(100);
+        
+         
     
         jTable1.getColumnModel().getColumn(2).setCellRenderer(new EXhelper.DecimalFormatRenderer());
         
         TableCellRenderer tableCellRenderer = new DefaultTableCellRenderer() {
 
-            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
 
             public Component getTableCellRendererComponent(JTable table,
                     Object value, boolean isSelected, boolean hasFocus,
@@ -70,24 +81,126 @@ public class loadMagazine extends javax.swing.JPanel {
         };
           
         
-        jTable3.getColumnModel().getColumn(2).setCellRenderer(tableCellRenderer);
-        
+        jTable3.getColumnModel().getColumn(1).setCellRenderer(tableCellRenderer);
+        jTable3.getColumnModel().getColumn(3).setCellRenderer(tableCellRenderer);
                
         DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        TableColumnModel tcm3 = jTable3.getColumnModel();
+        tcm3.getColumn(0).setPreferredWidth(220);
+        tcm3.getColumn(1).setPreferredWidth(80);
+        tcm3.getColumn(2).setPreferredWidth(50);
+        tcm3.getColumn(3).setPreferredWidth(80);
+        tcm3.getColumn(4).setPreferredWidth(50);
+        tcm3.getColumn(5).setPreferredWidth(70);
+        
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         DatePickerCellEditor datetime = new DatePickerCellEditor(format);
         //DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
        // datetime.setFormats(dateFormat);
-       jTable3.getColumnModel().getColumn(2).setCellEditor(datetime);
+       jTable3.getColumnModel().getColumn(1).setCellEditor(datetime);
+       jTable3.getColumnModel().getColumn(3).setCellEditor(datetime);
+       
+        
+        JComboBox<String> comboBox = new JComboBox<>();
+        comboBox.addItem("");
+        comboBox.addItem("08:00");
+        comboBox.addItem("09:00");
+        comboBox.addItem("10:00");
+        comboBox.addItem("11:00");
+        comboBox.addItem("12:00");
+        comboBox.addItem("13:00");
+        comboBox.addItem("14:00");
+        comboBox.addItem("15:00");
+        comboBox.addItem("16:00");
+        comboBox.addItem("17:00");
+        comboBox.addItem("18:00");
+     
+        
+        jTable3.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(comboBox));
+        jTable3.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(comboBox));
+        
+        try{
+        
+        Statement st = MysqlConnect.connect().createStatement();
+        ResultSet res = st.executeQuery("SELECT * FROM  dm_magazine WHERE id = '"+id_magazine+"' ");
+        
+        while (res.next()) {
+            String su  = res.getString("su");
+            String[] suEX = su.split(",");
+             
+     
+            Object[] row = {"Sūdymas, marinavimas/Faršo maišymas", reSp(suEX[0]), suEX[1], reSp(suEX[2]), suEX[3], suEX[3]};
+            Object[] row2 = {"Dešrų kimšimas/Brandinimas", "", "", "", "", ""};
+            Object[] row3 = {"Rūkinimas/Vytinimas", "", "", "", "", ""};
+            Object[] row4 = {"Virimas", "", "", "", "", ""};
+            Object[] row5 = {"Atvėsinimas", "", "", "", "", ""};
+            Object[] row6 = {"Formavimas", "", "", "", "", ""};
 
-        Object[] row = {"Susimas, marinavimas/ Farso maisymas", "", ""};
-        model.addRow(row);
+            model.addRow(row);
+            model.addRow(row2);
+            model.addRow(row3);
+            model.addRow(row4);
+            model.addRow(row5);
+            model.addRow(row6);
+        } 
+        } catch (SQLException e){
+                    e.printStackTrace();
+        }
+        
+ 
+        
+        //listener
+        
+        jTable3.getModel().addTableModelListener(new TableModelListener() {
+            
+          public void tableChanged(TableModelEvent e) {
+            int index  = jTable3.getSelectedRow();
+            
+            if(index != -1){
+                SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+                DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+                String begin_date = "";
+                String end_date = "";
+            
+                if(isValidDate(""+model.getValueAt(index, 1)+"")){
+                    Date begin_date_n = (Date) model.getValueAt(index, 1);
+                    begin_date = f.format(begin_date_n);
+                }
+                if(isValidDate(""+model.getValueAt(index, 3)+"")){
+                    Date end_date_n = (Date) model.getValueAt(index, 3);
+                    end_date = f.format(end_date_n);
+                }    
+                String begin_time = (String) model.getValueAt(index, 2);
+                String end_time = (String) model.getValueAt(index, 4); 
+                String temp = (String) model.getValueAt(index, 5); 
+                
+                System.out.println(begin_date+" "+begin_time);
+                
+            }
+          }
+          
+        }); 
+        
         
     }
     
  
+    private static String reSp(String str){
+        return str.replaceAll("\\s", "");
+    }
     
-    
+public static boolean isValidDate(String date) 
+{
+        try {
+            DateFormat df = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+            df.setLenient(false);
+            df.parse(date);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+}
+
     private void loadProducts(){
         Magazine products = new Magazine(id_magazine);
         List<Magazine> result = products.getProducts();
@@ -208,14 +321,14 @@ public class loadMagazine extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Gamyba", "Pradžia Data, laikas", "Pabaiga Data, laikas"
+                "Gamyba", "Pradžia Data", "Laikas", "Pabaiga Data", "Laikas", "Teperatūra"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true
+                false, true, true, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
