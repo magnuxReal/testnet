@@ -169,7 +169,7 @@ public class newMagazine extends javax.swing.JPanel {
                     
                 Statement st = MysqlConnect.connect().createStatement(); 
                 Statement st2 = MysqlConnect.connect().createStatement();
-                st.executeUpdate("INSERT INTO dm_magazine (id_recipe,kg,date,su,de,ru,vi,at,fo) VALUES ('"+id_recipe+"', '"+kg_need+"', '"+LocalDate.now()+"', ',,,,', ',,,,', ',,,,', ',,,,', ',,,,', ',,,,')", Statement.RETURN_GENERATED_KEYS);
+                st.executeUpdate("INSERT INTO dm_magazine (id_recipe,kg,date,su,de,ru,vi,at,fo) VALUES ('"+id_recipe+"', '"+kg_need+"', '"+LocalDate.now()+"', ' , , , , ', ' , , , , ', ' , , , , ', ' , , , , ', ' , , , , ', ' , , , , ')", Statement.RETURN_GENERATED_KEYS);
                 ResultSet rs = st.getGeneratedKeys();
                 int last_id = 0;
                 if (rs.next()) {

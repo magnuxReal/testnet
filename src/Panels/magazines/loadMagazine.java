@@ -127,14 +127,28 @@ public class loadMagazine extends javax.swing.JPanel {
         while (res.next()) {
             String su  = res.getString("su");
             String[] suEX = su.split(",");
-             
+
+            String de  = res.getString("de");
+            String[] deEX = de.split(",");
+
+            String ru  = res.getString("ru");
+            String[] ruEX = ru.split(",");
+
+            String vi  = res.getString("vi");
+            String[] viEX = vi.split(",");
+
+            String at  = res.getString("at");
+            String[] atEX = at.split(",");
+
+            String fo  = res.getString("fo");
+            String[] foEX = fo.split(",");            
      
-            Object[] row = {"Sūdymas, marinavimas/Faršo maišymas", reSp(suEX[0]), suEX[1], reSp(suEX[2]), suEX[3], suEX[3]};
-            Object[] row2 = {"Dešrų kimšimas/Brandinimas", "", "", "", "", ""};
-            Object[] row3 = {"Rūkinimas/Vytinimas", "", "", "", "", ""};
-            Object[] row4 = {"Virimas", "", "", "", "", ""};
-            Object[] row5 = {"Atvėsinimas", "", "", "", "", ""};
-            Object[] row6 = {"Formavimas", "", "", "", "", ""};
+            Object[] row = {"Sūdymas, marinavimas/Faršo maišymas", reSp(suEX[0]), suEX[1], reSp(suEX[2]), suEX[3], suEX[4]};
+            Object[] row2 = {"Dešrų kimšimas/Brandinimas", reSp(deEX[0]), deEX[1], reSp(deEX[2]), deEX[3], deEX[4]};
+            Object[] row3 = {"Rūkinimas/Vytinimas", reSp(ruEX[0]), ruEX[1], reSp(ruEX[2]), ruEX[3], ruEX[4]};
+            Object[] row4 = {"Virimas", reSp(viEX[0]), viEX[1], reSp(viEX[2]), viEX[3], viEX[4]};
+            Object[] row5 = {"Atvėsinimas", reSp(atEX[0]), atEX[1], reSp(atEX[2]), atEX[3], atEX[4]};
+            Object[] row6 = {"Formavimas", reSp(foEX[0]), foEX[1], reSp(foEX[2]), foEX[3], foEX[4]};
 
             model.addRow(row);
             model.addRow(row2);
@@ -159,8 +173,8 @@ public class loadMagazine extends javax.swing.JPanel {
             if(index != -1){
                 SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
                 DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
-                String begin_date = "";
-                String end_date = "";
+                String begin_date = ""+model.getValueAt(index, 1)+"";
+                String end_date = ""+model.getValueAt(index, 3)+"";
             
                 if(isValidDate(""+model.getValueAt(index, 1)+"")){
                     Date begin_date_n = (Date) model.getValueAt(index, 1);
@@ -173,8 +187,37 @@ public class loadMagazine extends javax.swing.JPanel {
                 String begin_time = (String) model.getValueAt(index, 2);
                 String end_time = (String) model.getValueAt(index, 4); 
                 String temp = (String) model.getValueAt(index, 5); 
-                
-                System.out.println(begin_date+" "+begin_time);
+                String update = "";
+                try {
+                    
+                switch (index) {
+                    case 0:
+                        update = "su";
+                        break;
+                    case 1:
+                        update = "de";
+                        break;
+                    case 2:
+                        update = "ru";
+                        break;
+                    case 3:
+                        update = "vi";
+                        break;
+                    case 4:
+                        update = "at";
+                        break;
+                    case 5:
+                        update = "fo";
+                        break;
+                }
+                    String info = begin_date+","+begin_time+","+end_date+","+end_time+","+temp;
+                    Statement st2 = MysqlConnect.connect().createStatement();
+                    st2.executeUpdate("UPDATE dm_magazine SET "+update+"='"+info+"' where id='"+id_magazine+"' "); 
+                    
+                } catch (SQLException er){
+                    er.printStackTrace();
+                }
+                System.out.println(begin_date+" "+begin_time+"/"+end_date+" "+end_time+" "+temp);
                 
             }
           }
@@ -185,21 +228,40 @@ public class loadMagazine extends javax.swing.JPanel {
     }
     
  
-    private static String reSp(String str){
-        return str.replaceAll("\\s", "");
+    private static Date reSp(String str){
+        String date = str.replaceAll("\\s", "");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                
+                df.setLenient(false);
+    
+                return df.parse(date);
+            } catch (ParseException e) {
+                return null;
+            }
     }
     
-public static boolean isValidDate(String date) 
-{
-        try {
-            DateFormat df = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
-            df.setLenient(false);
-            df.parse(date);
-            return true;
-        } catch (ParseException e) {
+    public static boolean isValidDate(String date){
+            try {
+                DateFormat df = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+                df.setLenient(false);
+                df.parse(date);
+                return true;
+            } catch (ParseException e) {
+                
+            }
+
+            try {
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                df.setLenient(false);
+                df.parse(date);
+                return true;
+            } catch (ParseException e) {
+                
+            }
+            
             return false;
-        }
-}
+    }
 
     private void loadProducts(){
         Magazine products = new Magazine(id_magazine);
