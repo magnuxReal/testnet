@@ -10,6 +10,7 @@ import Classes.EXhelper;
 import Classes.WarehouseClass;
 import Main.MysqlConnect;
 import Models.Product;
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,13 +28,14 @@ import javax.swing.table.TableColumnModel;
  */
 public class recipeProducts extends javax.swing.JPanel {
     private int id_recipe;
- 
     /**
      * Creates new form recipeProducts
      */
-    public recipeProducts(int id, String rname, String rnote) {
-        id_recipe = id;
+    public recipeProducts(int id, String rname, String rnote, String output) {
+         
         initComponents();
+        id_recipe = id;
+        jTextFieldOutput.setText(output);
         TableColumnModel tcm1 = jTable1.getColumnModel();
         tcm1.getColumn(0).setPreferredWidth(30);    
         tcm1.getColumn(1).setPreferredWidth(100);
@@ -174,6 +176,9 @@ public class recipeProducts extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jTextFieldOutput = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jButtonOutput = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -277,6 +282,17 @@ public class recipeProducts extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel3.setText("Pastaba");
 
+        jTextFieldOutput.setText("0");
+
+        jLabel4.setText("Išeiga %");
+
+        jButtonOutput.setText("Išsaugoti");
+        jButtonOutput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOutputActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -298,6 +314,13 @@ public class recipeProducts extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldOutput, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonOutput)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -315,11 +338,17 @@ public class recipeProducts extends javax.swing.JPanel {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTextFieldOutput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonOutput))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+                 
         int index  = jTable1.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         String name = (String) model.getValueAt(index, 1);
@@ -373,17 +402,40 @@ public class recipeProducts extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton1MouseClicked
 
+    private void jButtonOutputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOutputActionPerformed
+        String output = jTextFieldOutput.getText();
+        
+        if(EXhelper.isNumeric(output)){
+            
+        try {
+            Statement st = MysqlConnect.connect().createStatement();   
+                st.executeUpdate("UPDATE dm_recipe SET output_proc='"+output+"' WHERE id='"+id_recipe+"' ");
+  
+        } catch (SQLException e) {
+        } finally {
+             jTextFieldOutput.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.green));     
+        } 
+  
+        }else{
+            jTextFieldOutput.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.red));
+        }
+
+    }//GEN-LAST:event_jButtonOutputActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonOutput;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
+    private javax.swing.JTextField jTextFieldOutput;
     // End of variables declaration//GEN-END:variables
 }

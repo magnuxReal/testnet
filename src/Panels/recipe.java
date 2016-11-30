@@ -73,8 +73,9 @@ public class recipe extends javax.swing.JPanel {
                 int id = res.getInt("id");
                 String name  = res.getString("name");
                 String note  = res.getString("note");
+                String ouput_proc  = res.getString("output_proc");
                 
-                Object[] row = {id, name, note};
+                Object[] row = {id, name, note, ouput_proc};
                 model1.addRow(row);
  
             }  
@@ -127,20 +128,20 @@ public class recipe extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID", "Pavadinimas", "Pastaba"
+                "ID", "Pavadinimas", "Pastaba", "Išeiga"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true
+                false, true, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -166,7 +167,7 @@ public class recipe extends javax.swing.JPanel {
         });
 
         jPanelSide.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelSide.setLayout(new java.awt.GridLayout());
+        jPanelSide.setLayout(new java.awt.GridLayout(1, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -269,8 +270,9 @@ public class recipe extends javax.swing.JPanel {
         int id = (int) model.getValueAt(index, 0);
         String name = (String) model.getValueAt(index, 1);
         String note = (String) model.getValueAt(index, 2);
+        String ouput_proc = (String) model.getValueAt(index, 3);
         
-        addNewPanel(new recipeProducts(id, name, note));
+        addNewPanel(new recipeProducts(id, name, note, ouput_proc));
   
     }//GEN-LAST:event_jTable1MouseClicked
 
