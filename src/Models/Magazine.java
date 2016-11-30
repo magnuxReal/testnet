@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,6 +26,10 @@ public class Magazine {
     private String invoice;
     private String date;
     private String recipe_name;
+    private double output_proc;
+    private double total_made;  
+    private Date date_to;
+    private String person; 
     
     public Magazine() {
   
@@ -41,6 +46,12 @@ public class Magazine {
             while(res.next()) {
                 date = res.getString("date");
                 recipe_name = res.getString("name");
+                output_proc = res.getDouble("output_proc");
+                total_made = res.getDouble("total_made");
+                
+                date_to = res.getDate("date_to");
+                
+                person = res.getString("person");
             }
             
         } catch (SQLException ex) {
@@ -54,6 +65,22 @@ public class Magazine {
     
     public int getIdProduct() {
         return id_product; 
+    } 
+
+    public Date getDate_to() {
+        return date_to; 
+    } 
+    
+    public String getPerson() {
+        return person; 
+    } 
+    
+    public double getOutput_proc() {
+        return output_proc; 
+    } 
+    
+    public double getTotal_made() {
+        return total_made; 
     } 
     
     public void setQuantyti(double quant) {

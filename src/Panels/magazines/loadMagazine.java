@@ -9,6 +9,7 @@ package Panels.magazines;
 import Classes.EXhelper;
 import Main.MysqlConnect;
 import Models.Magazine;
+import java.awt.Color;
  
  
 import java.awt.Component;
@@ -18,8 +19,10 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -51,6 +54,7 @@ public class loadMagazine extends javax.swing.JPanel {
         id_magazine = id;
         loadProducts();
         
+        jXDatePick.setFormats(new String[]{"yyyy-MM-dd"});
         TableColumnModel tcm = jTable1.getColumnModel();
 
         tcm.getColumn(0).setWidth(0);
@@ -287,10 +291,26 @@ public class loadMagazine extends javax.swing.JPanel {
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
+        double recount = 0;
+        if(products.getOutput_proc() > 0){
+        recount = (products.getOutput_proc()*total)/100;
+        total = total-recount;
+        total = Math.round(total*100)/100.00;
+        }
+        if(products.getTotal_made() > 0){
+            jTextField1.setText(""+products.getTotal_made()+"");
+        }
+        
+         
+        PersonInpt.setText(""+products.getPerson()+"");
+        
+
+        jXDatePick.setDate(products.getDate_to());
         
         jLabel2.setText("<html>Gaminio pavadinimas: <b>"+products.getRecipeName()+"</b></html>"); 
         jLabel4.setText("<html>Data: <b>"+products.getDate()+"</b></html>"); 
         jLabel5.setText("<html>Viso: <b>"+total+"</b></html>");
+        jLabel7.setText("<html>Išeiga: <b>"+products.getOutput_proc()+" ("+recount+")</b></html>");
     }
 
     /**
@@ -315,6 +335,14 @@ public class loadMagazine extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        jXDatePick = new org.jdesktop.swingx.JXDatePicker();
+        jLabel10 = new javax.swing.JLabel();
+        PersonInpt = new javax.swing.JTextField();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -424,6 +452,22 @@ public class loadMagazine extends javax.swing.JPanel {
                 .addGap(145, 145, 145))
         );
 
+        jLabel7.setText("Iseiga");
+
+        jLabel8.setText("Pagamintas kiekis (kg) :");
+        jLabel8.setToolTipText("");
+
+        jButton1.setText("Išaugoti");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Markiravimas (Tinka vartoti iki):");
+
+        jLabel10.setText("Atsakingas asmuo");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -437,8 +481,21 @@ public class loadMagazine extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel10))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton1)
+                                    .addComponent(PersonInpt, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jXDatePick, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -456,19 +513,77 @@ public class loadMagazine extends javax.swing.JPanel {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jXDatePick, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(PersonInpt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel10))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
                         .addContainerGap())
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String meatmaade = jTextField1.getText();
+        Date date_t = jXDatePick.getDate();
+        String dateStr = null;
+        
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    
+        try {
+            dateStr = df.format(date_t);
+            jXDatePick.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.green));
+        } catch (Exception ex) {
+            jXDatePick.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.red));
+        }  
+
+        String person_Res = PersonInpt.getText();
+        
+                
+       if(EXhelper.isNumeric(meatmaade)){
+            
+        try {
+            Statement st = MysqlConnect.connect().createStatement();   
+                st.executeUpdate("UPDATE dm_magazine SET total_made='"+meatmaade+"', date_to='"+dateStr+"', person='"+person_Res+"'  WHERE id='"+id_magazine+"' ");
+  
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+             jTextField1.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.green));     
+        } 
+  
+        }else{
+            jTextField1.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.red));
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField PersonInpt;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -476,5 +591,7 @@ public class loadMagazine extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
+    private javax.swing.JTextField jTextField1;
+    private org.jdesktop.swingx.JXDatePicker jXDatePick;
     // End of variables declaration//GEN-END:variables
 }

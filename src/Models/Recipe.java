@@ -86,5 +86,19 @@ public class Recipe {
         } 
        return r_products;
     }
+   
+    public String getRecipeInfo(String needto){
+        String need = "";
+        try {
+            ResultSet res = st.executeQuery("SELECT * FROM  dm_recipe WHERE id = '"+id+"' ");
+            while(res.next()) {
+                    need = res.getString(needto);
+            }
+            
+        } catch (SQLException e) {
+            //MysqlConnect.disconnect();
+        } 
+       return need;
+    }
     
 }
