@@ -7,6 +7,7 @@ package Panels.magazines;
 
  
 import Classes.EXhelper;
+import Classes.TextAreaRenderer;
 import Main.MysqlConnect;
 import Models.Magazine;
 import java.awt.Color;
@@ -22,17 +23,23 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import javax.swing.AbstractCellEditor;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import org.eclipse.persistence.jpa.jpql.parser.DateTime;
@@ -87,7 +94,8 @@ public class loadMagazine extends javax.swing.JPanel {
         
         jTable3.getColumnModel().getColumn(1).setCellRenderer(tableCellRenderer);
         jTable3.getColumnModel().getColumn(3).setCellRenderer(tableCellRenderer);
-               
+       
+        
         DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
         TableColumnModel tcm3 = jTable3.getColumnModel();
         tcm3.getColumn(0).setPreferredWidth(220);
@@ -96,7 +104,12 @@ public class loadMagazine extends javax.swing.JPanel {
         tcm3.getColumn(3).setPreferredWidth(80);
         tcm3.getColumn(4).setPreferredWidth(50);
         tcm3.getColumn(5).setPreferredWidth(70);
+        tcm3.getColumn(6).setPreferredWidth(180);
+     
+        TextAreaRenderer textAreaRenderer = new TextAreaRenderer(); 
+        tcm3.getColumn(6).setCellRenderer(textAreaRenderer);
         
+       
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         DatePickerCellEditor datetime = new DatePickerCellEditor(format);
         //DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
@@ -147,12 +160,12 @@ public class loadMagazine extends javax.swing.JPanel {
             String fo  = res.getString("fo");
             String[] foEX = fo.split(",");            
      
-            Object[] row = {"Sūdymas, marinavimas/Faršo maišymas", reSp(suEX[0]), suEX[1], reSp(suEX[2]), suEX[3], suEX[4]};
-            Object[] row2 = {"Dešrų kimšimas/Brandinimas", reSp(deEX[0]), deEX[1], reSp(deEX[2]), deEX[3], deEX[4]};
-            Object[] row3 = {"Rūkinimas/Vytinimas", reSp(ruEX[0]), ruEX[1], reSp(ruEX[2]), ruEX[3], ruEX[4]};
-            Object[] row4 = {"Virimas", reSp(viEX[0]), viEX[1], reSp(viEX[2]), viEX[3], viEX[4]};
-            Object[] row5 = {"Atvėsinimas", reSp(atEX[0]), atEX[1], reSp(atEX[2]), atEX[3], atEX[4]};
-            Object[] row6 = {"Formavimas", reSp(foEX[0]), foEX[1], reSp(foEX[2]), foEX[3], foEX[4]};
+            Object[] row = {"Sūdymas, marinavimas/Faršo maišymas", reSp(suEX[0]), suEX[1], reSp(suEX[2]), suEX[3], suEX[4], "Laikymo temperatūra (+6 C)"};
+            Object[] row2 = {"Dešrų kimšimas/Brandinimas", reSp(deEX[0]), deEX[1], reSp(deEX[2]), deEX[3], deEX[4], "Laikymo temperatūra (+6 C)"};
+            Object[] row3 = {"Rūkinimas/Vytinimas", reSp(ruEX[0]), ruEX[1], reSp(ruEX[2]), ruEX[3], ruEX[4], "Rūkinimo/vytinimo temperatūra (ne aukštesnė kaip +35 C)"};
+            Object[] row4 = {"Virimas", reSp(viEX[0]), viEX[1], reSp(viEX[2]), viEX[3], viEX[4], "Produkto vidaus temperatūra (+75 C)"};
+            Object[] row5 = {"Atvėsinimas", reSp(atEX[0]), atEX[1], reSp(atEX[2]), atEX[3], atEX[4], "Laikymo temperatūra (+6 C)"};
+            Object[] row6 = {"Formavimas", reSp(foEX[0]), foEX[1], reSp(foEX[2]), foEX[3], foEX[4], "Laikymo temperatūra (+12 C)"};
 
             model.addRow(row);
             model.addRow(row2);
@@ -230,6 +243,7 @@ public class loadMagazine extends javax.swing.JPanel {
         
         
     }
+    
     
  
     private static Date reSp(String str){
@@ -312,6 +326,8 @@ public class loadMagazine extends javax.swing.JPanel {
         jLabel5.setText("<html>Viso: <b>"+total+"</b></html>");
         jLabel7.setText("<html>Išeiga: <b>"+products.getOutput_proc()+" ("+recount+")</b></html>");
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -411,14 +427,14 @@ public class loadMagazine extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Gamyba", "Pradžia Data", "Laikas", "Pabaiga Data", "Laikas", "Teperatūra"
+                "Gamyba", "Pradžia Data", "Laikas", "Pabaiga Data", "Laikas", "Teperatūra", "Informacija"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true
+                false, true, true, true, true, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -436,19 +452,17 @@ public class loadMagazine extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
+            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 739, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(5, 5, 5)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(145, 145, 145))
         );
 
@@ -464,7 +478,7 @@ public class loadMagazine extends javax.swing.JPanel {
             }
         });
 
-        jLabel9.setText("Markiravimas (Tinka vartoti iki):");
+        jLabel9.setText("Tinka vartoti iki:");
 
         jLabel10.setText("Atsakingas asmuo");
 
@@ -478,26 +492,25 @@ public class loadMagazine extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel10))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton1)
-                                    .addComponent(PersonInpt, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jXDatePick, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel7)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel9)
+                                .addComponent(jLabel8)
+                                .addComponent(jLabel10))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jButton1)
+                                .addComponent(PersonInpt, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jXDatePick, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                .addGap(5, 5, 5)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(456, 456, 456))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -507,9 +520,9 @@ public class loadMagazine extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(4, 4, 4)
+                        .addGap(5, 5, 5)
                         .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(5, 5, 5)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5)
