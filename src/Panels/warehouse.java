@@ -118,6 +118,7 @@ public class warehouse extends javax.swing.JPanel {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
+        jTable1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -154,6 +155,7 @@ public class warehouse extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel3.setText("Prieskonių likučiai");
 
+        jTable2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

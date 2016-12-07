@@ -62,6 +62,7 @@ public class loadMagazine extends javax.swing.JPanel {
         loadProducts();
         
         jXDatePick.setFormats(new String[]{"yyyy-MM-dd"});
+        jXDatePick2.setFormats(new String[]{"yyyy-MM-dd"});
         TableColumnModel tcm = jTable1.getColumnModel();
 
         tcm.getColumn(0).setWidth(0);
@@ -320,7 +321,9 @@ public class loadMagazine extends javax.swing.JPanel {
         
 
         jXDatePick.setDate(products.getDate_to());
+        jXDatePick2.setDate(products.getStamped());
         
+      
         jLabel2.setText("<html>Gaminio pavadinimas: <b>"+products.getRecipeName()+"</b></html>"); 
         jLabel4.setText("<html>Data: <b>"+products.getDate()+"</b></html>"); 
         jLabel5.setText("<html>Viso: <b>"+total+"</b></html>");
@@ -359,6 +362,8 @@ public class loadMagazine extends javax.swing.JPanel {
         jXDatePick = new org.jdesktop.swingx.JXDatePicker();
         jLabel10 = new javax.swing.JLabel();
         PersonInpt = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jXDatePick2 = new org.jdesktop.swingx.JXDatePicker();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -375,6 +380,7 @@ public class loadMagazine extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
+        jTable1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -422,6 +428,7 @@ public class loadMagazine extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel6.setText("Partijos Nr.");
 
+        jTable3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -468,9 +475,13 @@ public class loadMagazine extends javax.swing.JPanel {
 
         jLabel7.setText("Iseiga");
 
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel8.setText("Pagamintas kiekis (kg) :");
         jLabel8.setToolTipText("");
 
+        jTextField1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jButton1.setText("Išaugoti");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -478,9 +489,16 @@ public class loadMagazine extends javax.swing.JPanel {
             }
         });
 
+        jLabel9.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel9.setText("Tinka vartoti iki:");
 
+        jLabel10.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel10.setText("Atsakingas asmuo");
+
+        PersonInpt.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+
+        jLabel11.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel11.setText("Markiravimas");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -493,21 +511,33 @@ public class loadMagazine extends javax.swing.JPanel {
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel7)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel9)
-                                .addComponent(jLabel8)
-                                .addComponent(jLabel10))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel7)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel8)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jXDatePick, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jXDatePick2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(46, 46, 46))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton1)
-                                .addComponent(PersonInpt, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jXDatePick, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton1)
+                                    .addGap(137, 137, 137))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(5, 5, 5)
+                                    .addComponent(PersonInpt, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGap(5, 5, 5)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(456, 456, 456))
@@ -534,13 +564,18 @@ public class loadMagazine extends javax.swing.JPanel {
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel11))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jXDatePick, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(PersonInpt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel10))))
+                                .addComponent(jXDatePick2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10)
+                            .addComponent(PersonInpt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)
                         .addContainerGap())
@@ -552,24 +587,64 @@ public class loadMagazine extends javax.swing.JPanel {
         String meatmaade = jTextField1.getText();
         Date date_t = jXDatePick.getDate();
         String dateStr = null;
+
+        Date date_t2 = jXDatePick2.getDate();
+        String dateStr2 = null;
         
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String person_Res = PersonInpt.getText();
+        try {
+            Statement st = MysqlConnect.connect().createStatement();   
+                st.executeUpdate("UPDATE dm_magazine SET person='"+person_Res+"'  WHERE id='"+id_magazine+"' ");
+
+        } catch (SQLException e) {
+            PersonInpt.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.red));  
+        } finally {
+             PersonInpt.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.green));    
+        } 
+
     
         try {
             dateStr = df.format(date_t);
-            jXDatePick.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.green));
+            
+            
+                try {
+                    Statement st = MysqlConnect.connect().createStatement();   
+                        st.executeUpdate("UPDATE dm_magazine SET date_to='"+dateStr+"'  WHERE id='"+id_magazine+"' ");
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                     jXDatePick.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.green));    
+                } 
+            
         } catch (Exception ex) {
             jXDatePick.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.red));
         }  
 
-        String person_Res = PersonInpt.getText();
+        try {
+            dateStr2 = df.format(date_t2);
+                try {
+                    Statement st = MysqlConnect.connect().createStatement();   
+                        st.executeUpdate("UPDATE dm_magazine SET stamped='"+dateStr2+"' WHERE id='"+id_magazine+"' ");
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                     jXDatePick2.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.green));    
+                } 
+        } catch (Exception ex) {
+            jXDatePick2.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.red));
+        } 
+        
+         
         
                 
        if(EXhelper.isNumeric(meatmaade)){
             
         try {
             Statement st = MysqlConnect.connect().createStatement();   
-                st.executeUpdate("UPDATE dm_magazine SET total_made='"+meatmaade+"', date_to='"+dateStr+"', person='"+person_Res+"'  WHERE id='"+id_magazine+"' ");
+                st.executeUpdate("UPDATE dm_magazine SET total_made='"+meatmaade+"'  WHERE id='"+id_magazine+"' ");
   
         } catch (SQLException e) {
             e.printStackTrace();
@@ -589,6 +664,7 @@ public class loadMagazine extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -606,5 +682,6 @@ public class loadMagazine extends javax.swing.JPanel {
     private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
     private org.jdesktop.swingx.JXDatePicker jXDatePick;
+    private org.jdesktop.swingx.JXDatePicker jXDatePick2;
     // End of variables declaration//GEN-END:variables
 }

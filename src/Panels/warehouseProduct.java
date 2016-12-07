@@ -112,6 +112,7 @@ public class warehouseProduct extends javax.swing.JPanel {
         showName.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         showName.setText("Likučiai");
 
+        jTablePl.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTablePl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

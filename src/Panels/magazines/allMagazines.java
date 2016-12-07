@@ -124,10 +124,10 @@ public class allMagazines extends javax.swing.JPanel {
                 DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
                 
                 if(id_recipe > 0){
-                       whereSQL = " WHERE  m.id_recipe = '"+id_recipe+"' ";
+                       whereSQL = " AND  m.id_recipe = '"+id_recipe+"' ";
                 }
                     ResultSet res = st.executeQuery("SELECT * FROM  dm_magazine AS m "
-                            + "LEFT JOIN dm_recipe AS r ON (r.id=m.id_recipe) "
+                            + "LEFT JOIN dm_recipe AS r ON (r.id=m.id_recipe) WHERE m.disp=1 "
                             + whereSQL + "ORDER BY m.id ASC");
                  
                 while (model.getRowCount() > 0) {
@@ -166,6 +166,7 @@ public class allMagazines extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
+        jTable1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -191,6 +192,7 @@ public class allMagazines extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel1.setText("Filtras");
 
         comboBox.addActionListener(new java.awt.event.ActionListener() {

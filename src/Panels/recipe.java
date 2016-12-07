@@ -60,7 +60,7 @@ public class recipe extends javax.swing.JPanel {
         try {
 
             Statement st = MysqlConnect.connect().createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM  dm_recipe");
+            ResultSet res = st.executeQuery("SELECT * FROM  dm_recipe WHERE disp=1");
             
             DefaultTableModel model1 = (DefaultTableModel) jTable1.getModel();
   
@@ -126,6 +126,7 @@ public class recipe extends javax.swing.JPanel {
             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
         );
 
+        jTable1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -141,7 +142,7 @@ public class recipe extends javax.swing.JPanel {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

@@ -70,8 +70,8 @@ public class recipeProducts extends javax.swing.JPanel {
           }
           
         });
-        jLabel2.setText(rname);
-        jLabel3.setText(rnote);
+        jTextFieldName.setText(rname);
+        jTextFieldNote.setText(rnote);
         jButton1.setVisible(false);
         jLabel1.setVisible(false);
         load_products();
@@ -174,14 +174,15 @@ public class recipeProducts extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jTextFieldOutput = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jButtonOutput = new javax.swing.JButton();
+        jTextFieldNote = new javax.swing.JTextField();
+        jTextFieldName = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
+        jTable1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -212,6 +213,7 @@ public class recipeProducts extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        jTable2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -249,6 +251,7 @@ public class recipeProducts extends javax.swing.JPanel {
             }
         });
 
+        jTable3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -261,7 +264,7 @@ public class recipeProducts extends javax.swing.JPanel {
                 java.lang.Integer.class, java.lang.String.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true
+                false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -276,12 +279,6 @@ public class recipeProducts extends javax.swing.JPanel {
 
         jLabel1.setText("Produktas");
 
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jLabel2.setText("Receptas");
-
-        jLabel3.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jLabel3.setText("Pastaba");
-
         jTextFieldOutput.setText("0");
 
         jLabel4.setText("Išeiga %");
@@ -293,15 +290,26 @@ public class recipeProducts extends javax.swing.JPanel {
             }
         });
 
+        jTextFieldNote.setText("jTextField1");
+
+        jTextFieldName.setText("jTextField2");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jTextFieldName)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                        .addComponent(jTextFieldNote, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldOutput, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonOutput)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -314,13 +322,6 @@ public class recipeProducts extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldOutput, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonOutput)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -330,20 +331,18 @@ public class recipeProducts extends javax.swing.JPanel {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton1)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextFieldNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextFieldOutput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonOutput))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -405,11 +404,14 @@ public class recipeProducts extends javax.swing.JPanel {
     private void jButtonOutputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOutputActionPerformed
         String output = jTextFieldOutput.getText();
         
+        String note = jTextFieldNote.getText();
+        String name = jTextFieldName.getText();
+        
         if(EXhelper.isNumeric(output)){
             
         try {
             Statement st = MysqlConnect.connect().createStatement();   
-                st.executeUpdate("UPDATE dm_recipe SET output_proc='"+output+"' WHERE id='"+id_recipe+"' ");
+                st.executeUpdate("UPDATE dm_recipe SET name='"+name+"', note='"+note+"', output_proc='"+output+"' WHERE id='"+id_recipe+"' ");
   
         } catch (SQLException e) {
         } finally {
@@ -427,8 +429,6 @@ public class recipeProducts extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonOutput;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -436,6 +436,8 @@ public class recipeProducts extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
+    private javax.swing.JTextField jTextFieldName;
+    private javax.swing.JTextField jTextFieldNote;
     private javax.swing.JTextField jTextFieldOutput;
     // End of variables declaration//GEN-END:variables
 }

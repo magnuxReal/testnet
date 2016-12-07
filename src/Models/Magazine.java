@@ -29,6 +29,7 @@ public class Magazine {
     private double output_proc;
     private double total_made;  
     private Date date_to;
+    private Date stamped;
     private String person; 
     
     public Magazine() {
@@ -50,6 +51,7 @@ public class Magazine {
                 total_made = res.getDouble("total_made");
                 
                 date_to = res.getDate("date_to");
+                stamped = res.getDate("stamped");
                 
                 person = res.getString("person");
             }
@@ -69,6 +71,10 @@ public class Magazine {
 
     public Date getDate_to() {
         return date_to; 
+    } 
+
+    public Date getStamped() {
+        return stamped; 
     } 
     
     public String getPerson() {
