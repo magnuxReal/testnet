@@ -21,6 +21,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -41,12 +42,19 @@ public class recipe extends javax.swing.JPanel {
     private JTextField recipe_name = new JTextField(20);
     private JTextField recipe_note = new JTextField(20);
     private JButton save_recipe = new JButton("Išsaugoti");
+    private int selected_id;
+    private String selected_name;
+    private String selected_note;
  
     /**
      * Creates new form recipe
      */
     public recipe() {
         initComponents();
+        
+        jButtonRecipeDelete.setVisible(false);
+
+ 
         
         TableColumnModel tcm = jTable1.getColumnModel();
         tcm.getColumn(0).setPreferredWidth(50);    
@@ -102,6 +110,7 @@ public class recipe extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jPanelSide = new javax.swing.JPanel();
+        jButtonRecipeDelete = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -170,6 +179,13 @@ public class recipe extends javax.swing.JPanel {
         jPanelSide.setBackground(new java.awt.Color(255, 255, 255));
         jPanelSide.setLayout(new java.awt.GridLayout(1, 0));
 
+        jButtonRecipeDelete.setText("Trinti");
+        jButtonRecipeDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRecipeDeleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -177,9 +193,12 @@ public class recipe extends javax.swing.JPanel {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonRecipeDelete)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelSide, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
                 .addContainerGap())
@@ -193,7 +212,9 @@ public class recipe extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButtonRecipeDelete)))
                     .addComponent(jPanelSide, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -266,16 +287,42 @@ public class recipe extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1MousePressed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        
+        jButtonRecipeDelete.setVisible(true);
+        
         int index  = jTable1.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        int id = (int) model.getValueAt(index, 0);
-        String name = (String) model.getValueAt(index, 1);
-        String note = (String) model.getValueAt(index, 2);
+        selected_id = (int) model.getValueAt(index, 0);
+        selected_name = (String) model.getValueAt(index, 1);
+        selected_note = (String) model.getValueAt(index, 2);
         String ouput_proc = (String) model.getValueAt(index, 3);
         
-        addNewPanel(new recipeProducts(id, name, note, ouput_proc));
+        addNewPanel(new recipeProducts(selected_id, selected_name, selected_note, ouput_proc));
   
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButtonRecipeDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRecipeDeleteActionPerformed
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        int dialogResult = JOptionPane.showConfirmDialog(this, "Ar tikrai norite ištrinti "+selected_name+" ("+selected_note+") ?", selected_name, dialogButton);
+        if(dialogResult == 0) {
+            jButtonRecipeDelete.setVisible(false);
+            try {
+                Statement st = MysqlConnect.connect().createStatement();   
+                    st.executeUpdate("UPDATE dm_recipe SET disp='0' WHERE id='"+selected_id+"' ");
+
+            } catch (SQLException e) {
+            } finally {
+                
+                jPanelSide.removeAll();
+                jPanelSide.revalidate();
+                jPanelSide.repaint();
+                
+                refreshTable();   
+            } 
+            
+           
+        } 
+    }//GEN-LAST:event_jButtonRecipeDeleteActionPerformed
 
   
     
@@ -288,6 +335,7 @@ public class recipe extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonRecipeDelete;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelSide;

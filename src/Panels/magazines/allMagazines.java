@@ -15,8 +15,10 @@ import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -25,6 +27,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
@@ -35,6 +38,9 @@ import javax.swing.table.TableColumnModel;
 public class allMagazines extends javax.swing.JPanel {
     Concept[] arr = {};
     private List<Concept> info; 
+    private int selected_id_magazine;
+    private String magazine_number;
+    private int id_recipe;
     /**
      * Creates new form allMagazines
      */
@@ -43,9 +49,14 @@ public class allMagazines extends javax.swing.JPanel {
         initComponents();
         loadMagazines(0);
         renderFilter();
-        
+        jButtonDeleteMagazine.setVisible(false);
         TableColumnModel tcm = jTable1.getColumnModel();
-
+        tcm.getColumn(0).setMinWidth(0);
+        tcm.getColumn(0).setMaxWidth(0);
+        tcm.getColumn(0).setWidth(0);  
+        tcm.getColumn(1).setPreferredWidth(200);
+        tcm.getColumn(2).setPreferredWidth(100);
+        tcm.getColumn(3).setPreferredWidth(300);
  
         tcm.getColumn(4).setCellRenderer(new EXhelper.DecimalFormatRenderer()); 
         
@@ -76,14 +87,15 @@ public class allMagazines extends javax.swing.JPanel {
     jTable1.addMouseListener(new MouseAdapter() {
 
             public void mouseClicked (MouseEvent me) {
-                if (me.getClickCount() == 2) {
-                    int index  = jTable1.getSelectedRow();
-
-                    if(index != -1){
-                        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                        int id_magazine = (int) model.getValueAt(index, 0);
-                        magazine.refresh(0, id_magazine);
-              
+                int index  = jTable1.getSelectedRow();
+                jButtonDeleteMagazine.setVisible(true);
+                if(index != -1){
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                    selected_id_magazine = (int) model.getValueAt(index, 0);
+                    magazine_number = (String) model.getValueAt(index, 2);
+               
+                    if (me.getClickCount() == 2) {
+                        magazine.refresh(0, selected_id_magazine);
                     }
                 }
             }
@@ -118,6 +130,7 @@ public class allMagazines extends javax.swing.JPanel {
     public void loadMagazines(int id_recipe){
             Statement st;
             String whereSQL = "";
+            this.id_recipe = id_recipe;
             try {
                 st = MysqlConnect.connect().createStatement();
                 
@@ -128,13 +141,21 @@ public class allMagazines extends javax.swing.JPanel {
                 }
                     ResultSet res = st.executeQuery("SELECT * FROM  dm_magazine AS m "
                             + "LEFT JOIN dm_recipe AS r ON (r.id=m.id_recipe) WHERE m.disp=1 "
-                            + whereSQL + "ORDER BY m.id ASC");
+                            + whereSQL + "ORDER BY m.id DESC");
                  
                 while (model.getRowCount() > 0) {
                         model.removeRow(0);
                 }
                 while(res.next()) {
-                    Object[] row = {res.getInt("id"), res.getString("date"), 0, res.getString("name"), res.getDouble("kg"), 0};
+                    String newdate = "0";
+ 
+                    try{
+                        Date date = new SimpleDateFormat("yyyy-mm-DD").parse(res.getString("date"));
+                        newdate  = new SimpleDateFormat("mm.DD").format(date);
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                    Object[] row = {res.getInt("id"), res.getString("date"), newdate, res.getString("name"), res.getDouble("total_made"), 0};
                     model.addRow(row);
                 }
                 
@@ -163,6 +184,7 @@ public class allMagazines extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         comboBox = new javax.swing.JComboBox<>();
+        jButtonDeleteMagazine = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -201,6 +223,13 @@ public class allMagazines extends javax.swing.JPanel {
             }
         });
 
+        jButtonDeleteMagazine.setText("Trinti");
+        jButtonDeleteMagazine.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteMagazineActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -208,14 +237,14 @@ public class allMagazines extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(comboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(267, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonDeleteMagazine)))
+                .addGap(0, 159, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -223,9 +252,10 @@ public class allMagazines extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(comboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE))
+                    .addComponent(comboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDeleteMagazine))
+                .addGap(9, 9, 9)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -233,9 +263,29 @@ public class allMagazines extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_comboBoxActionPerformed
 
+    private void jButtonDeleteMagazineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteMagazineActionPerformed
+       
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        int dialogResult = JOptionPane.showConfirmDialog(this, "Ar tikrai norite ištrinti "+magazine_number+" ?", "Ištrinti gamybos žurnalą", dialogButton);
+        if(dialogResult == 0) {
+            jButtonDeleteMagazine.setVisible(false);
+            try {
+                Statement st = MysqlConnect.connect().createStatement();   
+                    st.executeUpdate("UPDATE dm_magazine SET disp='0' WHERE id='"+selected_id_magazine+"' ");
+
+            } catch (SQLException e) {
+            } finally {
+                 loadMagazines(id_recipe);
+            } 
+            
+           
+        } 
+    }//GEN-LAST:event_jButtonDeleteMagazineActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<Concept> comboBox;
+    private javax.swing.JButton jButtonDeleteMagazine;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
