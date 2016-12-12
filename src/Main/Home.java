@@ -280,7 +280,7 @@ public class Home extends javax.swing.JFrame {
         });
     }
     
-    private void addNewPanel(JPanel changeTo){
+    public void addNewPanel(JPanel changeTo){
         jPanelDefault.removeAll();
         jPanelDefault.revalidate();
         jPanelDefault.repaint();

@@ -47,7 +47,9 @@ public class warehouse extends javax.swing.JPanel {
     public warehouse() {
         
         initComponents();
-        
+        this.removeAll();
+        this.revalidate();
+        this.repaint();
         TableColumnModel tcm = jTable1.getColumnModel();
         tcm.getColumn(0).setPreferredWidth(50);    
         tcm.getColumn(1).setPreferredWidth(200);
@@ -325,13 +327,13 @@ public class warehouse extends javax.swing.JPanel {
         addNewPanel(new warehouseProduct(id, productname));
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void balance(){
+    public void balance(){
 
         try {
             
            
             Statement st = MysqlConnect.connect().createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM  dm_balance");
+            ResultSet res = st.executeQuery("SELECT * FROM  dm_balance WHERE disp='1'");
             
             DefaultTableModel model1 = (DefaultTableModel) jTable1.getModel();
             DefaultTableModel model2 = (DefaultTableModel) jTable2.getModel();

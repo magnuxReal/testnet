@@ -7,11 +7,15 @@ package Panels;
 import Classes.EXhelper;
 import Models.Product;
 import Classes.WarehouseClass;
+import Main.Home;
+import Main.MysqlConnect;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -105,7 +109,7 @@ public class warehouseProduct extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTablePl = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jLoadedID = new javax.swing.JLabel();
+        jButtonDeleteProduct = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -150,7 +154,12 @@ public class warehouseProduct extends javax.swing.JPanel {
             }
         });
 
-        jLoadedID.setText("#id");
+        jButtonDeleteProduct.setText("Trinti");
+        jButtonDeleteProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteProductActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -160,27 +169,27 @@ public class warehouseProduct extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(showName)
+                        .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLoadedID))
+                        .addComponent(jButtonDeleteProduct))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1))
+                            .addComponent(showName)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(showName)
-                    .addComponent(jLoadedID))
+                .addComponent(showName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButtonDeleteProduct))
                 .addContainerGap(105, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -195,10 +204,30 @@ public class warehouseProduct extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jButton1MousePressed
 
+    private void jButtonDeleteProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteProductActionPerformed
+        //id_product
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        int dialogResult = JOptionPane.showConfirmDialog(this, "Ar tikrai norite ištrinti "+product_name+" ?", "Ištrinti produktą žurnalą", dialogButton);
+        if(dialogResult == 0) {
+            try {
+                Statement st = MysqlConnect.connect().createStatement();   
+                    st.executeUpdate("UPDATE dm_balance SET disp='0' WHERE id='"+id_product+"' ");
+
+            } catch (SQLException e) {
+            } finally {
+            
+                this.removeAll();
+                this.revalidate();
+                this.repaint();
+                warehouse.refresh(0);
+            } 
+        }
+    }//GEN-LAST:event_jButtonDeleteProductActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLoadedID;
+    private javax.swing.JButton jButtonDeleteProduct;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTablePl;
     private javax.swing.JLabel showName;
