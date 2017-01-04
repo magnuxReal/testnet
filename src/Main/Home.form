@@ -206,7 +206,7 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="jLabel2" min="-2" pref="60" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jLabel1" max="32767" attributes="0"/>
+                      <Component id="jLabel1" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -229,8 +229,11 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="&#xa9; 2016 www.gradickas.lt"/>
+            <Property name="text" type="java.lang.String" value="&#xa9; 2017 www.gradickas.lt"/>
           </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="&#xa9; 2017 www.gradickas.lt"/>
+          </AccessibilityProperties>
         </Component>
       </SubComponents>
     </Container>

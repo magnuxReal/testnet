@@ -248,7 +248,7 @@ public class newMagazine extends javax.swing.JPanel {
         
         try {         
             Statement st = MysqlConnect.connect().createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM  dm_recipe ORDER BY id DESC");
+            ResultSet res = st.executeQuery("SELECT * FROM  dm_recipe WHERE disp = 1 ORDER BY id DESC");
             int i = 0;
             while (res.next()) {
                 String id = res.getString("id");
