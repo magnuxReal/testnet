@@ -183,15 +183,19 @@ public class newMagazine extends javax.swing.JPanel {
 
                     double balance_left = WarehouseClass.getBalance(rr.getIdProduct());
                     need_total = EXhelper.round((kg_need*rr.getQuantyti()), 3);
-                    ResultSet res = st2.executeQuery("SELECT * FROM  dm_balance_products WHERE balance_left > 0 AND id_product ='"+rr.getIdProduct()+"' ORDER BY data ASC");
-
+                    
+                    ResultSet res = st2.executeQuery("SELECT bp.*"
+                            + "FROM  dm_balance AS b "
+                            + "LEFT JOIN dm_balance_products AS bp ON (b.id=bp.id_product) "
+                            + "WHERE b.disp = '1' AND bp.balance_left > 0 AND bp.id_product ='"+rr.getIdProduct()+"' ORDER BY bp.data ASC");
+                    
                     while (res.next()) {
                         if(need_more == 1){
                             balance_left = res.getDouble("balance_left");
                             int id_balance_product = res.getInt("id");
                             String invoice = res.getString("invoice");
                             
-                            if(balance_left > need_total){
+                            if(balance_left >= need_total){
                                 need_more = 0;
                                 st.executeUpdate("INSERT INTO dm_magazine_products (id_magazine,id_product,id_balance_product,quantyti,invoice) VALUES ('"+last_id+"', '"+rr.getIdProduct()+"', '"+id_balance_product+"', '"+need_total+"', '"+invoice+"')");
                                 st.executeUpdate("UPDATE dm_balance_products SET balance_left='"+(balance_left-need_total)+"' where id='"+id_balance_product+"'");  
@@ -223,7 +227,7 @@ public class newMagazine extends javax.swing.JPanel {
         
         try {         
             Statement st = MysqlConnect.connect().createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM  dm_recipe");
+            ResultSet res = st.executeQuery("SELECT * FROM  dm_recipe WHERE disp = 1 ORDER BY id DESC");
 
             while (res.next()) {
                 String id = res.getString("id");

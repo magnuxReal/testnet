@@ -229,11 +229,8 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="&#xa9; 2017 www.gradickas.lt"/>
+            <Property name="text" type="java.lang.String" value="v.1.0.1"/>
           </Properties>
-          <AccessibilityProperties>
-            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="&#xa9; 2017 www.gradickas.lt"/>
-          </AccessibilityProperties>
         </Component>
       </SubComponents>
     </Container>
