@@ -63,6 +63,8 @@ public class loadMagazine extends javax.swing.JPanel {
         
         jXDatePick.setFormats(new String[]{"yyyy-MM-dd"});
         jXDatePick2.setFormats(new String[]{"yyyy-MM-dd"});
+        jXDatePickMagazine.setFormats(new String[]{"yyyy-MM-dd"});
+        
         TableColumnModel tcm = jTable1.getColumnModel();
 
         tcm.getColumn(0).setWidth(0);
@@ -301,7 +303,7 @@ public class loadMagazine extends javax.swing.JPanel {
         try{
             Date date = new SimpleDateFormat("yyyy-mm-DD").parse(products.getDate());
             String newdate  = new SimpleDateFormat("mm.DD").format(date);
-            
+            jXDatePickMagazine.setDate(date);
             jLabel6.setText("<html>Partijos Nr.: <b>"+newdate+"</b></html>");
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -325,7 +327,7 @@ public class loadMagazine extends javax.swing.JPanel {
         
       
         jLabel2.setText("<html>Gaminio pavadinimas: <b>"+products.getRecipeName()+"</b></html>"); 
-        jLabel4.setText("<html>Data: <b>"+products.getDate()+"</b></html>"); 
+   
         jLabel5.setText("<html>Viso: <b>"+total+"</b></html>");
         jLabel7.setText("<html>Išeiga: <b>"+products.getOutput_proc()+" ("+recount+")</b></html>");
     }
@@ -354,6 +356,8 @@ public class loadMagazine extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
+        jXDatePickMagazine = new org.jdesktop.swingx.JXDatePicker();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -454,21 +458,43 @@ public class loadMagazine extends javax.swing.JPanel {
         });
         jScrollPane3.setViewportView(jTable3);
 
+        jButton2.setText("Keisti");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jXDatePickMagazine.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXDatePickMagazineActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 739, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane3)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jXDatePickMagazine, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addGap(577, 691, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel4)
-                .addGap(5, 5, 5)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jButton2)
+                    .addComponent(jXDatePickMagazine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(1, 1, 1)
+                .addComponent(jLabel6)
+                .addGap(4, 4, 4)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(145, 145, 145))
         );
@@ -538,9 +564,9 @@ public class loadMagazine extends javax.swing.JPanel {
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(5, 5, 5)
                                     .addComponent(PersonInpt, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(5, 5, 5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(456, 456, 456))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -658,10 +684,37 @@ public class loadMagazine extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jXDatePickMagazineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePickMagazineActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jXDatePickMagazineActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String dateStr = null;
+        Date date_magazine = jXDatePickMagazine.getDate();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        dateStr = df.format(date_magazine);
+  
+        String newdate  = new SimpleDateFormat("MM.dd").format(date_magazine);
+        jLabel6.setText("<html>Partijos Nr.: <b>"+newdate+"</b></html>");
+
+        try {
+            Statement st = MysqlConnect.connect().createStatement();   
+            st.executeUpdate("UPDATE dm_magazine SET date='"+dateStr+"'  WHERE id='"+id_magazine+"' ");
+  
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+             jLabel6.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.green));     
+        } 
+        
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField PersonInpt;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -683,5 +736,6 @@ public class loadMagazine extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField1;
     private org.jdesktop.swingx.JXDatePicker jXDatePick;
     private org.jdesktop.swingx.JXDatePicker jXDatePick2;
+    private org.jdesktop.swingx.JXDatePicker jXDatePickMagazine;
     // End of variables declaration//GEN-END:variables
 }
